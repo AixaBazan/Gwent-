@@ -1,35 +1,37 @@
 using System.Collections;
 using System;
 using System.Collections.Generic;
-class GwentList : IList<int>
+using UnityEngine;
+using UnityEditor;
+class GwentList : IList<GameObject>
 {
     //Falta Find y  Remove
-    public List<int> List{get; private set;}
+    public List<GameObject> List{get; private set;}
     public GwentList()
     {
-        this.List = new List<int>();
+        this.List = new List<GameObject>();
     }
-    static Random random = new Random();
+    static System.Random random = new System.Random();
     public void Shuffle()
     {
         for (int i = 0; i < List.Count; i++)
         {
             int index = random.Next(0, List.Count - 1);
             //Change
-            int Temp = List[i];
+            GameObject Temp = List[i];
             List[i] = List[index];
             List[index] = Temp;
         }
     }
-    public void Push(int item) => List.Add(item);
-    public void SendBottom(int item) => List.Insert(0, item);
-    public int Pop()
+    public void Push(GameObject item) => List.Add(item);
+    public void SendBottom(GameObject item) => List.Insert(0, item);
+    public GameObject Pop()
     {
-        int card = List[List.Count -1];
+        GameObject card = List[List.Count -1];
         List.Remove(card);
         return card;
     }
-    public void Insert(int index, int item)
+    public void Insert(int index, GameObject item)
     {
         List.Insert(index, item);
     }
@@ -37,21 +39,21 @@ class GwentList : IList<int>
     {
         List.RemoveAt(index);
     }
-    public int IndexOf(int item)
+    public int IndexOf(GameObject item)
     {
         return List.IndexOf(item);
     }
-    public int this[int index]{get{return List[index];} set{List[index] = value;}}
-    public void Add(int item)
+    public GameObject this[int index]{get{return List[index];} set{List[index] = value;}}
+    public void Add(GameObject item)
     {
         List.Add(item);
     }
     //revisar si mandarlo al cementerio directamente o hacerlo en el EventTrigger: hacer Remove
-    public bool Remove(int item)
+    public bool Remove(GameObject item)
     {
         return List.Remove(item);
     }
-    public bool Contains(int item)
+    public bool Contains(GameObject item)
     {
         return List.Contains(item);
     }
@@ -61,11 +63,11 @@ class GwentList : IList<int>
         List.Clear();
     }
     public bool IsReadOnly{get{return false;}}
-    public void CopyTo(int[] array, int arrayIndex)
+    public void CopyTo(GameObject[] array, int arrayIndex)
     {
         List.CopyTo(array, arrayIndex);
     }
-    public IEnumerator<int> GetEnumerator()
+    public IEnumerator<GameObject> GetEnumerator()
     {
         return List.GetEnumerator();
     }

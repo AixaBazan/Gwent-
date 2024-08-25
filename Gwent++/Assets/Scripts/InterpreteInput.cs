@@ -63,7 +63,8 @@ public class InterpreteInput : MonoBehaviour
                     }
                     else
                     {
-                        System.Console.WriteLine("Todo bien semanticamente");
+                        program.Interprete();
+                        messageText.text += "Todo bien";
                     }
                 }
             }

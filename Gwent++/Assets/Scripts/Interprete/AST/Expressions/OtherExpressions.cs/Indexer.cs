@@ -25,8 +25,8 @@ public class Indexer : Expression
     }
     public override void Evaluate()
     {
-        this.Value = Type;
-        System.Console.WriteLine("Estoy indexando en una lista");
+        expression.Evaluate();
+        //this.Value = expression.Value[Index];
     }
     public override string ToString()
     {

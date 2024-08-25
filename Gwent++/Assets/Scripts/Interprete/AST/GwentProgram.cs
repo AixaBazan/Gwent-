@@ -37,7 +37,7 @@ public class GwentProgram : Stmt
     {
         foreach (CardComp card in Cards)
         {
-            //card.Interprete();
+            card.CardBuilder();
         }
     }
 

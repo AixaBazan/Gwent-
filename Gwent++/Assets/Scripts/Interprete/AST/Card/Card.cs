@@ -2,6 +2,8 @@ using System.Security.Claims;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
+using UnityEditor;
 
 public class CardComp : AST
 {
@@ -70,7 +72,7 @@ public class CardComp : AST
         } 
         //Chequear q pusieran una faccion valida
         Faction.Evaluate();
-        if(((string)Faction.Value != "Fairies") || ((string)Faction.Value != "Demons"))
+        if(((string)Faction.Value != "Fairies") && ((string)Faction.Value != "Demons"))
         {
             errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Las facciones para las cartas disponibles son: Fairies y Demons"));
             return false;
@@ -109,9 +111,50 @@ public class CardComp : AST
     //Falta interpretar selector y efectos
     public void CardBuilder()
     {
+        // Evaluar las propiedades de la carta
         Name.Evaluate();
         Power.Evaluate();
-        //Creando las instancias de la carta segun su tipo:
+        Faction.Evaluate();
+        Type.Evaluate();
+
+        // Crear una nueva instancia de Card
+        Card newCard = ScriptableObject.CreateInstance<Card>();
+
+        // Asignar propiedades a la nueva carta
+        newCard.Name = (string)Name.Value;
+        newCard.Power = (double)Power.Value;
+        newCard.OriginalPower = newCard.Power; // Asignar el poder original
+        newCard.Faction = (string)Faction.Value;
+        newCard.Description = "Carta creada por el usuario";
+        newCard.Type = (CardType)Enum.Parse(typeof(CardType), (string)Type.Value); // Asegúrate de que CardType sea un enum
+        newCard.GameZone = range; 
+        newCard.effects = OnActivation; // asigna efectos
+        // Asignar la imagen a la carta
+        newCard.Image = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Images/CardImages/DefaultImage.jpg");
+
+        // Guardar la carta en la carpeta "Assets/Cards/"
+        #if UNITY_EDITOR
+        string path = "Assets/ScriptableObjects/" + newCard.Name + ".asset";
+        UnityEditor.AssetDatabase.CreateAsset(newCard, path);
+        UnityEditor.AssetDatabase.SaveAssets();
+        #endif
+        // Instanciar el prefab y asignar el Scriptable Object
+        GameObject cardPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/CardPrefab.prefab");
+        
+        GameObject cardCopy = GameObject.Instantiate(cardPrefab);
+        cardCopy.GetComponent<CardDisplay>().card = (Card)AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
+        string name = cardCopy.GetComponent<CardDisplay>().card.Name;
+        string cardPath = "Assets/Prefabs/" + name + ".prefab";
+
+        PrefabUtility.SaveAsPrefabAsset(cardCopy, cardPath);
+        GameObject.DestroyImmediate(cardCopy); 
+
+        // // Cargar la escena
+        // SceneManager.LoadScene("SampleScene");
+
+        // // Luego acceder al objeto
+        // GameObject DeckF = GameObject.Find("NombreDelObjeto");
+
     }
     //Arreglar ToString
     public override string ToString()
