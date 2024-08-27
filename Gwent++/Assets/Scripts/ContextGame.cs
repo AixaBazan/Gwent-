@@ -1,43 +1,74 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-public class ContextGame : MonoBehaviour
+public class ContextGame : MonoBehaviour 
 {
-    //array de todas las listas del juego
-    Dictionary<List<GameObject>, GameObject> CardsInFront; //= new Dictionary<List<GameObject>, GameObject>[]{}; //diccionario de las listas de cartas del juego y su zona ascociada en el frontend
-    public GameObject HandFairiesZone;
-    public GameObject HandDemonsZone;
-    public GameObject MeleeFairiesZone;
-    public GameObject RangedFairiesZone;
-    public GameObject SiegeFairiesZone;
-    public GameObject PlayerFairies;
-    public GameObject PlayerDemons;
-    public Player fairies {get{return PlayerFairies.GetComponent<Player>();}private set{}}
-    public Player demons {get{return PlayerDemons.GetComponent<Player>();}private set{}}
-    public Player TriggerPlayer{ get; set; } // retorna el el jugador q esta jugando
-    public List<Card> Board{ get; set; } //retorna todas las listas del campo, hacer metodo 
+    public static ContextGame contextGame;
+    void Awake()
+    {
+        if(contextGame == null)
+        {
+            Debug.Log("Entro aqui");
+            contextGame = this;
+        }
+        else if(contextGame != this)
+        {
+            Debug.Log("Entro aqui en distinto d this");
+            Destroy(gameObject);
+        }
+    }
+    //Referencia a las listas del tablero:
+    public GameObject playerFairies;
+    public GameObject playerDemons;
+    // public GameObject WeatherZone;
+
+    #region Context Methods
+    public Player TriggerPlayer
+    {
+        get
+        {
+            if(GameManager.Instance.CurrentPlayer == false) return playerFairies.GetComponent<Player>();
+            else return playerDemons.GetComponent<Player>();
+        }
+    } // retorna el el jugador q esta jugando
+    public List<GameObject> Board{ get{return GetCardsInBoard();}private set{}} //retorna todas las listas del campo, hacer metodo 
+    private List<GameObject> GetCardsInBoard()
+    {
+        List<GameObject> cards = new List<GameObject>();
+        cards.AddRange(FieldOfPlayer(playerFairies.GetComponent<Player>()));
+        //cards.AddRange(FieldOfPlayer(playerDemons.GetComponent<Player>()));
+        return cards;
+    }
+    public Player GetPlayer(int ID)
+    {
+        if (ID == 1) return playerFairies.GetComponent<Player>();
+        else if(ID == 2) return playerDemons.GetComponent<Player>();
+        else throw new Exception("No hay ningun jugador q contenga el ID asignado");
+    }
     public List<GameObject> Hand => HandOfPlayer(TriggerPlayer);
     public List<GameObject> Deck => DeckOfPlayer(TriggerPlayer);
     public List<GameObject> Field => FieldOfPlayer(TriggerPlayer);
     public List<GameObject> Graveyard => GraveyardOfPlayer(TriggerPlayer);
     public List<GameObject> HandOfPlayer(Player player)
     {
-        return player.Hand;
+        return player.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards;
     }
-    List<GameObject> field;
     public List<GameObject> FieldOfPlayer(Player player)
     {
-        return player.Field(out field);
+        return player.GetComponent<Player>().Field();
     }
     public List<GameObject> GraveyardOfPlayer(Player player)
     {
-        return player.Cementery;
+        return player.GetComponent<Player>().Cementery;
     }
     public List<GameObject> DeckOfPlayer(Player player)
     {
-        return player.Deck;
+        return player.GetComponent<Player>().Deck;
     }
-    # region Methods
+    #endregion
+
+    #region Methods
+    //Falta Find
     public void Push(GameObject item, List<GameObject> list) => list.Add(item);
     public void SendBottom(GameObject item, List<GameObject> list) => list.Insert(0, item);
     public GameObject Pop(List<GameObject> list)
@@ -58,43 +89,13 @@ public class ContextGame : MonoBehaviour
             list[index] = Temp;
         }
     }
-    //Metodo q permiter robar una carta del deck
-    public void Stole(Player player, GameObject Hand) 
+    //Metodo q permite robar una carta del deck
+    public void Stole(Player player) 
     {
-         GameObject drawCard = DeckOfPlayer(player)[0];
-        // drawCard.transform.SetParent(Hand.transform, false);
+        GameObject drawCard = DeckOfPlayer(player)[0];
+        Debug.Log(drawCard.name);
         HandOfPlayer(player).Add(drawCard);
         DeckOfPlayer(player).Remove(drawCard); 
-    }
-    void Start()
-    {
-        CardsInFront = new Dictionary<List<GameObject>, GameObject>
-        {
-            {HandOfPlayer(fairies), HandFairiesZone}, {fairies.Melee, MeleeFairiesZone}
-        };
-        // Shuffle(DeckOfPlayer(PlayerFairies.GetComponent<Player>()));
-        Stole(fairies, HandFairiesZone);
-        UpdateFront();
-    }
-    public void UpdateFront()
-    {
-       foreach (var item in CardsInFront)
-       {
-            foreach(var card in item.Key)
-            {
-                if(!HasChild(item.Value, card))
-                {
-                    Debug.Log("entro aqui");
-                    GameObject drawCard = Instantiate(card, new Vector3(0, 0, 0), Quaternion.identity);
-                    drawCard.transform.SetParent(item.Value.transform, false);
-                }
-            }
-       }
-    }
-    private bool HasChild(GameObject parent, GameObject child)
-    {
-        // Verificar si el hijo está en la jerarquía del padre
-        return child.transform.IsChildOf(parent.transform);
-    }
+    }  
     #endregion
 }

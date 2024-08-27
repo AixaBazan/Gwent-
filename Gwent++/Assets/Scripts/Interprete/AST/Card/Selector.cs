@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 public class Selector : Stmt
 {
     public Expression Source { get; private set;}
@@ -58,7 +59,19 @@ public class Selector : Stmt
     }
     public override void Interprete()
     {
-        throw new NotImplementedException();
+        List<GameObject> target = new List<GameObject>();
+        switch(Source.Value)
+        {
+            case "board":
+                target = ContextGame.contextGame.Board;
+                break;
+            // case "hand":
+            //     target = ContextGame.contextGame.
+        }
+        foreach(var item in target)
+        {
+            
+        }
     }
     public override string ToString()
     {

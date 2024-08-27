@@ -5,11 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Card", menuName = "Card")]
 public class Card : ScriptableObject
 {
-    void Start()
-    {
-        this.context = GameObject.Find("Context").GetComponent<ContextGame>();
-    }
-    private ContextGame context;
     public Sprite Image;
     public string Description;
     public string Name;
@@ -17,12 +12,12 @@ public class Card : ScriptableObject
     public double OriginalPower;
     public string Faction;
     public CardType Type;
-    public Player Owner 
+    public int Owner 
     {
         get
         {
-            if(this.Faction == "Fairies") return context.PlayerFairies.GetComponent<Player>().Id;
-            else return context.PlayerDemons.GetComponent<Player>().Id;
+            if(this.Faction == "Fairies")  return 1;
+            else return 2;
         }
         set{}
     }

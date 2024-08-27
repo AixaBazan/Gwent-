@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class CardDisplay : MonoBehaviour
+public class CardDisplay : MonoBehaviour, IPointerClickHandler
 {
-    public GameObject context;
     public Card card;
-    public bool PlayedCard = false;
+    public bool IsPlayed = false;
     public TMP_Text nameText;
     public TMP_Text descriptionText;
     public Image image;
@@ -22,34 +22,14 @@ public class CardDisplay : MonoBehaviour
         power.text = card.Power.ToString();
         type.text = card.Type.ToString();
     }
-    // Update is called once per frame
     void Update()
     {
         power.text = card.Power.ToString();
     }
-    //Se realiza cual se clliquea la carta
-    public void OnClick()
+    public void OnPointerClick(PointerEventData eventData)
     {
-        if(card.GameZone.Contains("Melee"))
-        {
-            MoveCard(context.GetComponent<ContextGame>().fairies.Melee);
-            //context.GetComponent<ContextGame>().UpdateFront();
-        }
-        // else if(card.GameZone.Contains("Siege"))
-        // {
-        //     MoveCard(context.GetComponent<ContextGame>().fairies.Siege);
-        //     context.GetComponent<ContextGame>().UpdateFront();
-        // }
-        // else if(card.GameZone.Contains("Ranged"))
-        // {
-        //     MoveCard(context.GetComponent<ContextGame>().fairies.Ranged);
-        //     context.GetComponent<ContextGame>().UpdateFront();
-        // }
+        CardManager.Instance.MoveCard(gameObject);
     }
-    private void MoveCard(List<GameObject> Destiny)
-    {
-        Destiny.Add(this.gameObject);
-        context.GetComponent<ContextGame>().HandOfPlayer(context.GetComponent<ContextGame>().fairies).Remove(this.gameObject);
-        PlayedCard = true;
-    }
+     public GameObject prefab; // Referencia al prefab original
+
 }

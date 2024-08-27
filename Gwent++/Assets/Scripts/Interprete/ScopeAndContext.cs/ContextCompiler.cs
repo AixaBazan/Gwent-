@@ -3,7 +3,9 @@ using System.Collections.Generic;
 //La clase context contiene las propiedades a la q se puede acceder cada tipo
 public class Context
 {
+    //efectos q sse van declarando
     public Dictionary<string, Effect> effects;
+    //cartas que se van declarando
     public List<string> cards;
 
     public Context()

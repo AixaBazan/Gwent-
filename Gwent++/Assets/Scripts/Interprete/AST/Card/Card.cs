@@ -138,23 +138,15 @@ public class CardComp : AST
         UnityEditor.AssetDatabase.CreateAsset(newCard, path);
         UnityEditor.AssetDatabase.SaveAssets();
         #endif
-        // Instanciar el prefab y asignar el Scriptable Object
+
+       // Instanciar el prefab y asignar el Scriptable Object
         GameObject cardPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/CardPrefab.prefab");
-        
         GameObject cardCopy = GameObject.Instantiate(cardPrefab);
         cardCopy.GetComponent<CardDisplay>().card = (Card)AssetDatabase.LoadAssetAtPath<ScriptableObject>(path);
         string name = cardCopy.GetComponent<CardDisplay>().card.Name;
         string cardPath = "Assets/Prefabs/" + name + ".prefab";
-
         PrefabUtility.SaveAsPrefabAsset(cardCopy, cardPath);
         GameObject.DestroyImmediate(cardCopy); 
-
-        // // Cargar la escena
-        // SceneManager.LoadScene("SampleScene");
-
-        // // Luego acceder al objeto
-        // GameObject DeckF = GameObject.Find("NombreDelObjeto");
-
     }
     //Arreglar ToString
     public override string ToString()
