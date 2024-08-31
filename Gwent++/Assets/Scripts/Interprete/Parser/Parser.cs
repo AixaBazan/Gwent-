@@ -608,7 +608,7 @@ class Parser
             {
                 if(expr is Variable)
                 {
-                    expr = Lambda(Stream.LookAhead(-3));
+                    expr = Lambda(expr);
                     return expr;
                 }
                 else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "La expresion lambda debe recibir como parametro una variable");
@@ -646,10 +646,10 @@ class Parser
         
         throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba una expresion");
     }
-    private Expression Lambda(Token var)
+    private Expression Lambda(Expression var)
     {
         Expression Condition = expression();
-        return new Lambda(var, Condition, var.Location);
+        return new Lambda((Variable)var, Condition, var.Location);
     }
 
     private Expression ProcessMemberAccess(Expression exp, CodeLocation varLoc)

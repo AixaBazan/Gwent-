@@ -45,9 +45,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Prefab cargado: " + prefab.name);
         }
-        //ContextGame.contextGame.Shuffle(ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck);
+        ContextGame.contextGame.Shuffle(ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck);
         ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
-        //ContextGame.contextGame.playerFairies.GetComponent<Player>().Remove
 
         // GameObject[] loadedPrefabs2 = Resources.LoadAll<GameObject>("DemonsCard");
         // player2.Deck.AddRange(loadedPrefabs2);

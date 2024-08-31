@@ -36,7 +36,7 @@ using System.Collections.Generic;class Method : Expression
     }
     public override void Evaluate()
     {
-       this.Value = Type.ToString();
+        
     }
     public override string ToString()
     {

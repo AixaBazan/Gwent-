@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 public class Indexer : Expression
 {
     public Indexer(Expression exp, double index, CodeLocation location): base(location)
@@ -20,13 +21,15 @@ public class Indexer : Expression
             Type = ExpressionType.ErrorType;
             return false;
         }
+        //verificar q index sea un numero entero
         Type = ExpressionType.Card;
         return true;
     }
     public override void Evaluate()
     {
         expression.Evaluate();
-        //this.Value = expression.Value[Index];
+        List<Card> list = (List<Card>)expression.Value;
+        this.Value = list[(int)Index];
     }
     public override string ToString()
     {

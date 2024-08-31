@@ -30,6 +30,4 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
     {
         CardManager.Instance.MoveCard(gameObject);
     }
-     public GameObject prefab; // Referencia al prefab original
-
 }

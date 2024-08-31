@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 388640194602412672}
   - component: {fileID: 6562610156914958257}
   - component: {fileID: 4781939760395328769}
+  - component: {fileID: 8765710863286204254}
   m_Layer: 5
   m_Name: Beluga
   m_TagString: Untagged
@@ -245,10 +246,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c526dc8eeb9ee8b49bc82b15a70360c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ContextGameObject: {fileID: 933761354985311341, guid: d352cc1d791c2d942832a01d7742dddb, type: 3}
-  context: {fileID: 8641145089684367705, guid: d352cc1d791c2d942832a01d7742dddb, type: 3}
   card: {fileID: 11400000, guid: 08ec365333cd03d4dbae05eeff559d11, type: 2}
-  PlayedCard: 0
+  IsPlayed: 0
   nameText: {fileID: 2172945530028938223}
   descriptionText: {fileID: 7709329943926511801}
   image: {fileID: 5654624957564832284}
@@ -299,6 +298,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 99.697754, y: 119.50653}
   m_EdgeRadius: 0
+--- !u!50 &8765710863286204254
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3525595890768253673}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 7
 --- !u!1 &5247840116384998135
 GameObject:
   m_ObjectHideFlags: 0

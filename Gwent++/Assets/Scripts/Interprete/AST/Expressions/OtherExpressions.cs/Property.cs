@@ -49,9 +49,64 @@ public class Property : Expression
             return false;
         }
     }
+    //la lista en el backen va a ser d cartas
     public override void Evaluate()
     {
-       this.Value = Type.ToString();
+        expression.Evaluate();
+        object PropValue = expression.Value;
+        if (PropValue is Card unit)
+        {
+            switch (Caller)
+            {
+                case "Name":
+                    this.Value = unit.Name;
+                    break;
+                case "Faction":
+                    this.Value = unit.Faction;
+                    break;
+                case "Power":
+                    this.Value = unit.Power;
+                    break;
+                case "Type":
+                    this.Value = unit.Type;
+                    break;
+                case "Owner":
+                    this.Value = unit.Owner;
+                    break;
+                // case "Range":
+                //     this.Value = unit.AttackType;
+                //     break;
+                default:
+                    throw new Exception($"Property '{Caller}' not found.");
+            }
+        }
+        else if(PropValue is ContextGame context)
+        {
+            //poner para q m devuelva listas d cartas
+             switch (Caller)
+            {
+                case "Board":
+                    this.Value = ContextGame.contextGame.Board;
+                    break;
+                case "TriggerPlayer":
+                    this.Value = (int)ContextGame.contextGame.TriggerPlayer.ID; //revisar si devolver el jugador o su ID
+                    break;
+                case "Hand":
+                    this.Value = ContextGame.contextGame.HandOfPlayer(ContextGame.contextGame.TriggerPlayer); 
+                    break;
+                case "Field":
+                    this.Value = ContextGame.contextGame.FieldOfPlayer(ContextGame.contextGame.TriggerPlayer); 
+                    break;
+                case "Deck":
+                    this.Value = ContextGame.contextGame.DeckOfPlayer(ContextGame.contextGame.TriggerPlayer); 
+                    break;
+                case "Graveyard":
+                    this.Value = ContextGame.contextGame.GraveyardOfPlayer(ContextGame.contextGame.TriggerPlayer); 
+                    break;
+                default:
+                    throw new Exception($"Property '{Caller}' not found.");
+            }
+        }
     }
     public override string ToString()
     {

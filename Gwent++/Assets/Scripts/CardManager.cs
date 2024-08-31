@@ -19,30 +19,29 @@ public class CardManager : MonoBehaviour
     }
     public void MoveCard(GameObject card)
     {
-        Debug.Log(card.name + "nombre d la carta");
-        Debug.Log("Entro al metodo move card");
         Card cardProperty = card.GetComponent<CardDisplay>().card;
+        GameObject Zone;
+        Player owner = ContextGame.contextGame.GetPlayer(cardProperty.Owner);
+
         if(cardProperty.GameZone.Contains("Melee"))
         {
-            Debug.Log(cardProperty.Owner);
-            Player owner = ContextGame.contextGame.GetPlayer(cardProperty.Owner);
-            Debug.Log(owner.HandZone.GetComponent<Zone>().Cards.Count + " count d owner del contexto");
-            Debug.Log(owner.ID);
-            owner.MeleeZone.GetComponent<Zone>().Cards.Add(card);
-            List<GameObject> Hand = owner.HandZone.GetComponent<Zone>().Cards;
-            if(!Hand.Contains(card))
-            {
-                Debug.Log("No tiene el gameobject" + card.name);
-            }
-            else
-            {
-                Debug.Log(Hand.Count + "este es el count d la hand y la contiene");
-               bool isRemove = Hand.Remove(card);
-               Debug.Log("ver si la quito: " + isRemove);
-            }
-            // bool isRemove = owner.HandZone.GetComponent<Zone>().Cards.Remove(card);
-            // Debug.Log("ver si la quito: " + isRemove);
-            GameManager.Instance.ChangePlayerTurn();
+           Zone = owner.MeleeZone;
+           Move(Zone, card);
         }
+        else if(cardProperty.GameZone.Contains("Ranged"))
+        {
+            Zone = owner.RangedZone;
+            Move(Zone, card);
+        }
+        else if(cardProperty.GameZone.Contains("Siege"))
+        {
+            Zone = owner.SiegeZone;
+            Move(Zone, card);
+        }
+    }
+    private void Move(GameObject Zone, GameObject Target)
+    {
+        Target.transform.SetParent(Zone.transform, false);
+        GameManager.Instance.ChangePlayerTurn();
     }
 }

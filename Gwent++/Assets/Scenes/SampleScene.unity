@@ -241,11 +241,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 162.18921
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -489.45944
+      value: -500
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -262,6 +262,22 @@ PrefabInstance:
     - target: {fileID: 3855454439074172537, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_Name
       value: HandFairies
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.x
+      value: 1051.6726
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.y
+      value: 114.53345
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.x
+      value: -1.6273193
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.20010376
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -622,11 +638,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 191.89001
+      value: 176
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -70.5
+      value: -81.5
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -643,6 +659,22 @@ PrefabInstance:
     - target: {fileID: 3855454439074172537, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_Name
       value: MeleeFairies
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.x
+      value: 781.32947
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.y
+      value: 143.37012
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.1749878
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.20007324
       objectReference: {fileID: 0}
     - target: {fileID: 6942286125945943339, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_Color.a
@@ -733,11 +765,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 191.89185
+      value: 176
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -353.35135
+      value: -368.65
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -754,6 +786,22 @@ PrefabInstance:
     - target: {fileID: 3855454439074172537, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_Name
       value: SiegeFairies
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.x
+      value: 786.7364
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.y
+      value: 130.75406
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.72610474
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.y
+      value: -1.1012421
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -942,7 +990,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 126.7568
+      value: 133.384
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -974,11 +1022,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 191.89
+      value: 176
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -204.3784
+      value: -218.692
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -995,6 +1043,22 @@ PrefabInstance:
     - target: {fileID: 3855454439074172537, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_Name
       value: RangedFairies
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.x
+      value: 783.1317
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Size.y
+      value: 130.75406
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.x
+      value: -0.72613525
+      objectReference: {fileID: 0}
+    - target: {fileID: 6230196522678539709, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.70103455
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

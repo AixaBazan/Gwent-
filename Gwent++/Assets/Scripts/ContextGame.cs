@@ -8,12 +8,10 @@ public class ContextGame : MonoBehaviour
     {
         if(contextGame == null)
         {
-            Debug.Log("Entro aqui");
             contextGame = this;
         }
         else if(contextGame != this)
         {
-            Debug.Log("Entro aqui en distinto d this");
             Destroy(gameObject);
         }
     }
@@ -30,13 +28,14 @@ public class ContextGame : MonoBehaviour
             if(GameManager.Instance.CurrentPlayer == false) return playerFairies.GetComponent<Player>();
             else return playerDemons.GetComponent<Player>();
         }
-    } // retorna el el jugador q esta jugando
-    public List<GameObject> Board{ get{return GetCardsInBoard();}private set{}} //retorna todas las listas del campo, hacer metodo 
+    } // retorna el jugador q esta jugando
+    public List<GameObject> Board{ get{return GetCardsInBoard();}private set{}} //retorna todas las listas del campo
     private List<GameObject> GetCardsInBoard()
     {
         List<GameObject> cards = new List<GameObject>();
         cards.AddRange(FieldOfPlayer(playerFairies.GetComponent<Player>()));
         //cards.AddRange(FieldOfPlayer(playerDemons.GetComponent<Player>()));
+        //poner tamb las clima
         return cards;
     }
     public Player GetPlayer(int ID)
@@ -92,10 +91,10 @@ public class ContextGame : MonoBehaviour
     //Metodo q permite robar una carta del deck
     public void Stole(Player player) 
     {
-        GameObject drawCard = DeckOfPlayer(player)[0];
+        GameObject drawCard = Instantiate(DeckOfPlayer(player)[0], new Vector3(0, 0, 0), Quaternion.identity);
         Debug.Log(drawCard.name);
-        HandOfPlayer(player).Add(drawCard);
-        DeckOfPlayer(player).Remove(drawCard); 
+        drawCard.transform.SetParent(player.HandZone.transform, false);
+        player.Deck.Remove(DeckOfPlayer(player)[0]);
     }  
     #endregion
 }
