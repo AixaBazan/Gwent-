@@ -17,7 +17,7 @@ public class Selector : Stmt
     public override Scope AssociatedScope {get;set;}
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
-        this.AssociatedScope = scope;   
+        this.AssociatedScope = scope.CreateChild();   
 
         //Chequeando el Source
         bool ValidSource = Source.CheckSemantic(context, AssociatedScope, errors);
@@ -41,7 +41,7 @@ public class Selector : Stmt
         }
         else
         {
-            bool ValidSingle = Single.CheckSemantic(context, scope, errors);
+            bool ValidSingle = Single.CheckSemantic(context, AssociatedScope, errors);
             if(Single.Type != ExpressionType.Boolean)
             {
                 errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El Single del Selector debe ser una expresion booleana"));
@@ -97,8 +97,14 @@ public class Selector : Stmt
         Lambda predicate = (Lambda)Predicate;
         foreach(Card card in cards)
         {
+            Debug.Log(card.Name);
             AssociatedScope.Define(predicate.Var.variable , card);
+            Debug.Log("Buscando la variable en el foreach desp d asignarla");
+            AssociatedScope.Get(predicate.Var.variable);
+            Debug.Log("Se encontro la variable");
+            Debug.Log(predicate.Var.variable);
             Predicate.Evaluate();
+            Debug.Log("valor del predicate " + Predicate.Value);
             if((bool)Predicate.Value)
             {
                 filteredCards.Add(card);
@@ -109,6 +115,11 @@ public class Selector : Stmt
             }
         }
         this.Value = filteredCards;
+        Debug.Log("todo bien al seleccion el selector , cant d cartas : " + filteredCards.Count);
+        foreach(var item in filteredCards)
+        {
+            Debug.Log(item);
+        }
     }
     public override string ToString()
     {

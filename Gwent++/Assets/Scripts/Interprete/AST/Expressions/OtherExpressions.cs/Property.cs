@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 public class Property : Expression
 {
     public Property(Expression exp, string caller, CodeLocation location): base(location)
@@ -52,8 +53,11 @@ public class Property : Expression
     //la lista en el backen va a ser d cartas
     public override void Evaluate()
     {
+        Debug.Log("Antes de evaluar la propiedad d la expresion lambda todo bien");
         expression.Evaluate();
+        Debug.Log("Se evaluo la prop de la expresion lambda");
         object PropValue = expression.Value;
+        Debug.Log(PropValue);
         if (PropValue is Card unit)
         {
             switch (Caller)
@@ -63,6 +67,7 @@ public class Property : Expression
                     break;
                 case "Faction":
                     this.Value = unit.Faction;
+                    Debug.Log("reconocio q era faccion y asigno el valor " + Value);
                     break;
                 case "Power":
                     this.Value = unit.Power;

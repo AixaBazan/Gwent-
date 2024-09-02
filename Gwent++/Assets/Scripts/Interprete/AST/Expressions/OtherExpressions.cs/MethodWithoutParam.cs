@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 class Method : Expression
 {
     public Method(Expression exp, string method, CodeLocation location): base(location)
@@ -39,20 +40,20 @@ class Method : Expression
     {
         expression.Evaluate();
         List<Card> PropValue = (List<Card>)expression.Value;
-        if (PropValue is List<Card> list)
+
+        switch (method)
         {
-            switch (method)
-            {
-                case "Pop":
-                    this.Value = ContextGame.contextGame.Pop(PropValue);
-                    break;
-                case "Shuffle":
-                    ContextGame.contextGame.Shuffle(PropValue);
-                    break;
-                default:
-                    throw new Exception($"Metodo '{method}' invalido.");
-            }
+            case "Pop":
+                this.Value = ContextGame.contextGame.Pop(PropValue);
+                break;
+            case "Shuffle":
+                ContextGame.contextGame.Shuffle(PropValue);
+                Debug.Log("shuffleo");
+                break;
+            default:
+                throw new Exception($"Metodo '{method}' invalido.");
         }
+
     }
     public override string ToString()
     {

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 class For : Stmt
 {
     public String IterationVar {get;}
@@ -37,11 +38,15 @@ class For : Stmt
     //revisar
     public override void Interprete()
     {
+        Debug.Log("entro a interpretar el for");
         List<Card> collection = (List<Card>)AssociatedScope.Get(Collection);
+        Debug.Log("accedio bien a la lista desde el scope");
         foreach(Card card in collection)
         {
             AssociatedScope.Define(IterationVar, card);
+            Debug.Log("definio el iteration var" + IterationVar + " con el valor de " + card.Name);
             Body.Interprete();
+            Debug.Log("interpreto el cuerpo del for");
         }
     }
     public override string ToString()

@@ -69,7 +69,7 @@ public class Effect : AST
         
     }
     //correr el efecto
-    public void RunEffect()
+    public void Interprete()
     {
         Body.Interprete();
     }

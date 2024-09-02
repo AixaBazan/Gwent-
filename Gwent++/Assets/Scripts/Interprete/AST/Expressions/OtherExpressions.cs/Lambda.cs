@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 class Lambda : Expression
 {
     public  Variable Var {get; private set;}
@@ -35,9 +36,12 @@ class Lambda : Expression
     }
     public override void Evaluate()
     {
-        Var.Evaluate(); //se le asocia su valor a la carta
+        Debug.Log("Entro a evaluar el predicate");
+        //Var.Evaluate(); //se le asocia su valor a la carta
+        Debug.Log("No paso del Var.Evaluate");
         Condition.Evaluate(); //se evalua la condicion
         this.Value = Condition.Value; //el valor es el resultado d evaluar la condicion
+
     }
     public override string ToString()
     {

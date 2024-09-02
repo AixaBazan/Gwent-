@@ -61,10 +61,8 @@ class Var : Stmt
         }
         return false;
     }   
-    // Arreglar para cuando sea una propiedad
     public override void Interprete()
     {
-        Name.Evaluate();
         InitialValue.Evaluate();
 
         if(Name is Variable)
@@ -82,6 +80,7 @@ class Var : Stmt
         }
         else if(Name is Property)
         {
+            Name.Evaluate();
             if(Operator.Value == TokenValue.Assign)
             {
                 Name.Value = InitialValue.Value;

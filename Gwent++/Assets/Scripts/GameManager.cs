@@ -54,10 +54,10 @@ public class GameManager : MonoBehaviour
                 }
             }  
         }
-        ContextGame.contextGame.Shuffle(ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck);
+        //ContextGame.contextGame.Shuffle(ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck);
         ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
         ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
-        ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
+        //ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
         ContextGame.contextGame.UpdateFront();
 
         // GameObject[] loadedPrefabs2 = Resources.LoadAll<GameObject>("DemonsCard");

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
-
-public class Scope //Para variables
+using UnityEngine;
+public class Scope 
 {
     private Dictionary<string, object> values = new Dictionary<string, object>(); //diccionario nombre de la variable - valor
     private Dictionary<string, ExpressionType> types = new Dictionary<string, ExpressionType>(); // diccionario nombre de la variable - tipo
@@ -16,7 +16,6 @@ public class Scope //Para variables
         child.Parent = this;   
         return child;
     }
-    public object? Get(Token name) => Get(name);
     public object? Get(string name) 
     {
         if (values.ContainsKey(name))
@@ -29,7 +28,7 @@ public class Scope //Para variables
         }
         else 
         {
-            System.Console.WriteLine("No se encontro la variable");
+            Debug.Log("No se en contro la variable " + name);
             return null;
         }
     }

@@ -1,6 +1,7 @@
 using System.Text;
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 public class Block : Stmt
 {
     public List<Stmt> Statements { get; } // Lista de declaraciones en el bloque
@@ -14,8 +15,8 @@ public class Block : Stmt
         this.AssociatedScope = scope;
         foreach(Stmt item in Statements)
         {
-            bool a = item.CheckSemantic(context, AssociatedScope , errors);
-            if( a == false)
+            bool valid = item.CheckSemantic(context, AssociatedScope , errors);
+            if( valid == false)
             {
                 return false;
             }
@@ -26,6 +27,7 @@ public class Block : Stmt
     {
         foreach(Stmt item in Statements)
         {
+            Debug.Log("entro al foreach del bloque");
             item.Interprete();
         }
     }

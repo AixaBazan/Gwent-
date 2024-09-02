@@ -152,12 +152,12 @@ public class CardComp : AST
         newCard.Image = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Images/CardImages/DefaultImage.jpg");
 
         // Guardar la carta en la carpeta "Assets/Cards/"
-        #if UNITY_EDITOR
-        string path = "Assets/Resources/FairiesCard/" + newCard.Name + ".asset";
-        UnityEditor.AssetDatabase.CreateAsset(newCard, path);
-        UnityEditor.AssetDatabase.SaveAssets();
-        UnityEditor.AssetDatabase.Refresh(); // Asegúrate de refrescar la base de datos de activos
-        #endif
+        // #if UNITY_EDITOR
+        // string path = "Assets/Resources/FairiesCard/" + newCard.Name + ".asset";
+        // UnityEditor.AssetDatabase.CreateAsset(newCard, path);
+        // UnityEditor.AssetDatabase.SaveAssets();
+        // UnityEditor.AssetDatabase.Refresh(); // Asegúrate de refrescar la base de datos de activos
+        // #endif
 
         CardDataBase.CreatedCards.Add(newCard);
         Debug.Log(CardDataBase.CreatedCards.Count + " este es el count d las cartas");

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 class Variable: UnaryExpression
 {
     public Variable(string variable, CodeLocation location) : base(location)
@@ -24,7 +25,9 @@ class Variable: UnaryExpression
     }
     public override void Evaluate()
     {
+        Debug.Log("entro aqui");
         this.Value = AssociatedScope.Get(variable);
+        Debug.Log("se encontro la variable" + variable);
     }
     public override string ToString()
     {

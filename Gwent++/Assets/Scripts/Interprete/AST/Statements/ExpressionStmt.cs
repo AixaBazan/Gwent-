@@ -21,7 +21,7 @@ class ExpressionStmt : Stmt
     }
     public override void Interprete()
     {
-        System.Console.WriteLine("es una funcion");
+        expression.Evaluate();
     }
     public override string ToString()
     {
