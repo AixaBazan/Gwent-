@@ -8,7 +8,6 @@ using UnityEngine.EventSystems;
 public class CardDisplay : MonoBehaviour, IPointerClickHandler
 {
     public Card card;
-    public bool IsPlayed = false;
     public TMP_Text nameText;
     public TMP_Text descriptionText;
     public Image image;

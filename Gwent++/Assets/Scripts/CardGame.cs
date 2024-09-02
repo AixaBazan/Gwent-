@@ -12,6 +12,7 @@ public class Card : ScriptableObject
     public double OriginalPower;
     public string Faction;
     public CardType Type;
+    public bool IsPlayed = false;
     public int Owner 
     {
         get
@@ -23,13 +24,14 @@ public class Card : ScriptableObject
     }
     public List<string> GameZone;
     //Efecto
+    public ParticularEffect effect;
     public List<AssignEffect> effects {get; set;}
     public void ExecuteEffect()
     {
-        foreach(var effect in effects)
-        {
-            effect.Interprete();
-        }
+        // foreach(var effect in effects)
+        // {
+        //     effect.Interprete();
+        // }
     }
 }
 public enum CardType
@@ -40,3 +42,10 @@ public enum CardType
     Lider,
     Clima
 }
+public enum ParticularEffect
+{
+    None,
+    UserEffect,
+    MultiplyAttack
+}
+

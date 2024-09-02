@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class Zone : MonoBehaviour
 {
     public List<Card> Cards;
-    
     public void UpdateZone()
     {
         GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();

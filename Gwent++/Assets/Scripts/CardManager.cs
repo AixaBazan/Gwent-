@@ -28,23 +28,24 @@ public class CardManager : MonoBehaviour
         if(card.GameZone.Contains("Melee"))
         {
            Zone = owner.MeleeZone;
-           Move(Zone, Hand, card);
+           Move(Zone, owner, card);
         }
         else if(card.GameZone.Contains("Ranged"))
         {
             Zone = owner.RangedZone;
-            Move(Zone, Hand, card);
+            Move(Zone, owner, card);
         }
         else if(card.GameZone.Contains("Siege"))
         {
             Zone = owner.SiegeZone;
-            Move(Zone, Hand, card);
+            Move(Zone, owner, card);
         }
     }
-    private void Move(GameObject Zone, GameObject Hand, Card Target)
+    private void Move(GameObject Zone, Player player, Card Target)
     {
         Zone.GetComponent<Zone>().Cards.Add(Target);
-        Hand.GetComponent<Zone>().Cards.Remove(Target);
+        player.Field.Add(Target);
+        player.HandZone.GetComponent<Zone>().Cards.Remove(Target);
         Target.ExecuteEffect();
         ContextGame.contextGame.UpdateFront();
     }

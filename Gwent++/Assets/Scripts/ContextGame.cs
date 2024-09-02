@@ -18,7 +18,7 @@ public class ContextGame : MonoBehaviour
     //Referencia a las listas del tablero:
     public GameObject playerFairies;
     public GameObject playerDemons;
-    // public GameObject WeatherZone;
+    public GameObject WeatherZone;
 
     #region Context Methods
     // retorna el jugador q esta jugando
@@ -44,8 +44,8 @@ public class ContextGame : MonoBehaviour
     {
         List<Card> cards = new List<Card>();
         cards.AddRange(FieldOfPlayer(playerFairies.GetComponent<Player>()));
-        //cards.AddRange(FieldOfPlayer(playerDemons.GetComponent<Player>()));
-        //poner tamb las clima
+        cards.AddRange(FieldOfPlayer(playerDemons.GetComponent<Player>()));
+        cards.AddRange(WeatherZone.GetComponent<Zone>().Cards);
         return cards;
     }
     public Player GetPlayer(int ID)
@@ -64,7 +64,7 @@ public class ContextGame : MonoBehaviour
     }
     public List<Card> FieldOfPlayer(Player player)
     {
-        return player.GetComponent<Player>().Field();
+        return player.GetComponent<Player>().Field;
     }
     public List<Card> GraveyardOfPlayer(Player player)
     {
@@ -76,7 +76,7 @@ public class ContextGame : MonoBehaviour
     }
     #endregion
 
-    #region Methods
+    #region List Methods
     //Falta Find
     public void Push(Card item, List<Card> list) => list.Add(item);
     public void SendBottom(Card item, List<Card> list) => list.Insert(0, item);
@@ -98,7 +98,10 @@ public class ContextGame : MonoBehaviour
             list[index] = Temp;
         }
     }
-    // //Metodo q permite robar una carta del deck
+    #endregion
+
+    #region Game Methods
+    //Metodo q permite robar una carta del deck
     public void Stole(Player player) 
     {
         Card card = player.GetComponent<Player>().Deck[0];
@@ -112,6 +115,42 @@ public class ContextGame : MonoBehaviour
         playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
         playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
         playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+        playerDemons.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
+        playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
+        playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
+        playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+    }
+
+    public void CleanBoard()
+    {
+        CleanZone(playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
+        CleanZone(playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
+        CleanZone(playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
+
+        CleanZone(playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
+        CleanZone(playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
+        CleanZone(playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
+
+        foreach(Card card in WeatherZone.GetComponent<Zone>().Cards)
+        {
+            if(card.Owner == 1)
+            {
+                playerFairies.GetComponent<Player>().Cementery.Add(card);
+            }
+            else
+            {
+                playerDemons.GetComponent<Player>().Cementery.Add(card);
+            }
+        }
+        WeatherZone.GetComponent<Zone>().Cards.Clear();
+    }
+    private void CleanZone(List<Card> list, Player player)
+    {
+        foreach(Card card in list)
+        {
+            player.Cementery.Add(card);
+        }
+        list.Clear();
     }
     #endregion
 }

@@ -128,7 +128,6 @@ public class CardComp : AST
         newCard.Description = "Carta creada por el usuario";
         newCard.Type = (CardType)Enum.Parse(typeof(CardType), (string)Type.Value); 
         newCard.GameZone = range;
-
         // Inicializar la lista de efectos 
         if (newCard.effects == null)
         {
@@ -151,16 +150,7 @@ public class CardComp : AST
         // Asignar la imagen a la carta
         newCard.Image = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Images/CardImages/DefaultImage.jpg");
 
-        // Guardar la carta en la carpeta "Assets/Cards/"
-        // #if UNITY_EDITOR
-        // string path = "Assets/Resources/FairiesCard/" + newCard.Name + ".asset";
-        // UnityEditor.AssetDatabase.CreateAsset(newCard, path);
-        // UnityEditor.AssetDatabase.SaveAssets();
-        // UnityEditor.AssetDatabase.Refresh(); // Asegúrate de refrescar la base de datos de activos
-        // #endif
-
-        CardDataBase.CreatedCards.Add(newCard);
-        Debug.Log(CardDataBase.CreatedCards.Count + " este es el count d las cartas");
+        // CreatedCards.CreatedCards.Add(newCard);
     }
     //Arreglar ToString
     public override string ToString()
