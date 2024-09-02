@@ -17,31 +17,35 @@ public class CardManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void MoveCard(GameObject card)
+    public void MoveCard(Card card)
     {
-        Card cardProperty = card.GetComponent<CardDisplay>().card;
         GameObject Zone;
-        Player owner = ContextGame.contextGame.GetPlayer(cardProperty.Owner);
+       
+        Player owner = ContextGame.contextGame.GetPlayer(card.Owner);
 
-        if(cardProperty.GameZone.Contains("Melee"))
+        GameObject Hand = owner.HandZone;
+
+        if(card.GameZone.Contains("Melee"))
         {
            Zone = owner.MeleeZone;
-           Move(Zone, card);
+           Move(Zone, Hand, card);
         }
-        else if(cardProperty.GameZone.Contains("Ranged"))
+        else if(card.GameZone.Contains("Ranged"))
         {
             Zone = owner.RangedZone;
-            Move(Zone, card);
+            Move(Zone, Hand, card);
         }
-        else if(cardProperty.GameZone.Contains("Siege"))
+        else if(card.GameZone.Contains("Siege"))
         {
             Zone = owner.SiegeZone;
-            Move(Zone, card);
+            Move(Zone, Hand, card);
         }
     }
-    private void Move(GameObject Zone, GameObject Target)
+    private void Move(GameObject Zone, GameObject Hand, Card Target)
     {
-        Target.transform.SetParent(Zone.transform, false);
-        GameManager.Instance.ChangePlayerTurn();
+        Zone.GetComponent<Zone>().Cards.Add(Target);
+        Hand.GetComponent<Zone>().Cards.Remove(Target);
+        Target.ExecuteEffect();
+        ContextGame.contextGame.UpdateFront();
     }
 }

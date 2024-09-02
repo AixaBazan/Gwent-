@@ -25,7 +25,6 @@ class Variable: UnaryExpression
     public override void Evaluate()
     {
         this.Value = AssociatedScope.Get(variable);
-        System.Console.WriteLine(variable + " tipo: " + Type);
     }
     public override string ToString()
     {

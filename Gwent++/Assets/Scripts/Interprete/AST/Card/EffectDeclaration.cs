@@ -11,7 +11,6 @@ public class Effect : AST
     public Scope AssociatedScope {get; private set;}
     public Dictionary <string, ExpressionType> EffectParams {get; private set;}
     private List<(Token,Token)> Params;
-    public bool HaveParams {get; private set;}
     public Effect(Expression name, Token targets, Token context, Stmt body, List<(Token, Token)> Param, CodeLocation location) : base(location)
     {
         this.Name = name;
@@ -20,11 +19,6 @@ public class Effect : AST
         this.Body = body;
         this.Params = Param;
         this.EffectParams = new Dictionary <string,ExpressionType>();
-        if(Param.Count > 0)
-        {
-            this.HaveParams = true;
-        }
-        else this.HaveParams = false;
     }
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
@@ -75,11 +69,10 @@ public class Effect : AST
         
     }
     //correr el efecto
-    // public void RunEffect(List<Card> targets)
-    // {
-    //     //ver q hago
-    //     //Body.Interprete();
-    // }
+    public void RunEffect()
+    {
+        Body.Interprete();
+    }
     public override string ToString()
     {
         // Obtener el nombre del efecto

@@ -7,6 +7,7 @@ public class Selector : Stmt
     public Expression Source { get; private set;}
     public Expression Single {get; private set;}
     public Expression Predicate {get; private set;}
+    public List<Card> Value {get; private set;}
     public Selector(Expression source, Expression single, Expression predicate, CodeLocation location) : base(location)
     {
         this.Source = source;
@@ -59,19 +60,55 @@ public class Selector : Stmt
     }
     public override void Interprete()
     {
-        List<GameObject> target = new List<GameObject>();
-        switch(Source.Value)
+        List<Card> cards = new List<Card>();
+        Source.Evaluate();
+        Single.Evaluate();
+
+        //Se define la lista de cartas q es el objetivo
+        switch (Source.Value)
         {
             case "board":
-                target = ContextGame.contextGame.Board;
+                cards = ContextGame.contextGame.Board;
                 break;
-            // case "hand":
-            //     target = ContextGame.contextGame.
+            case "hand":
+                cards = ContextGame.contextGame.Hand;
+                break;
+            case "otherHand":
+                cards = ContextGame.contextGame.HandOfPlayer(ContextGame.contextGame.EnemyPlayer);
+                break;
+            case "deck":
+                cards = ContextGame.contextGame.Deck;
+                break;
+            case "otherDeck":
+                cards = ContextGame.contextGame.DeckOfPlayer(ContextGame.contextGame.EnemyPlayer);
+                break;
+            case "field":
+                cards = ContextGame.contextGame.Field;
+                break;
+            case "otherField":
+                cards = ContextGame.contextGame.FieldOfPlayer(ContextGame.contextGame.EnemyPlayer);
+                break;
+            default:
+                throw new Exception($"Sorce '{Source.Value}' invalido.");
         }
-        foreach(var item in target)
+
+        //Se filtran las cartas segun el predicate y el single
+        List<Card> filteredCards = new List<Card>();
+        Lambda predicate = (Lambda)Predicate;
+        foreach(Card card in cards)
         {
-            
+            AssociatedScope.Define(predicate.Var.variable , card);
+            Predicate.Evaluate();
+            if((bool)Predicate.Value)
+            {
+                filteredCards.Add(card);
+                if((bool)Single.Value == false)
+                { 
+                    break;
+                }
+            }
         }
+        this.Value = filteredCards;
     }
     public override string ToString()
     {

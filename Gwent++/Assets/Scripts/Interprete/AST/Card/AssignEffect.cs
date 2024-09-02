@@ -1,25 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-public class AssignEffect : AST
+[System.Serializable]
+public class AssignEffect : Stmt
 {
     public Expression Name {get; private set;}
     public List<(string, Expression)> Params {get; private set;}
-    public Selector selector {get; private set;}  
+    public Selector selector {get; private set;}
+    public override Scope AssociatedScope { get; set;}
     public Effect RefEffect {get; private set;}  
-    //public AssignEffect PostAction {get; private set;}
     public AssignEffect(Expression name, List<(string, Expression)> param, Selector sel, CodeLocation location) : base(location)
     {
         this.Name = name;
         this.Params = param;
         this.selector = sel;
     }
-    public bool PostActionCheckSemantic(Context context, Scope scope, List<CompilingError> errors)
-    {
-        return true;
-    } 
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
+        this.AssociatedScope = scope.CreateChild();
         //Se verifica que la expresion del nombre sea de tipo texto
         Name.CheckSemantic(context, scope, errors);
         if(Name.Type != ExpressionType.Text)
@@ -79,9 +77,22 @@ public class AssignEffect : AST
 
         return ValidSel;
     }
+    public override void Interprete()
+    {
+        selector.Interprete();
+        string TargetsName = RefEffect.Targets.Value;
+        string ContextName = RefEffect.Context.Value;
+
+        //Se annade al scope del efecto la lista d cartas a operar
+        RefEffect.AssociatedScope.Define(TargetsName, selector.Value);
+        //Se annade al scope del efecto el contexto del juego
+        RefEffect.AssociatedScope.Define(ContextName, ContextGame.contextGame);
+
+        //Se corre el efecto
+        RefEffect.RunEffect();
+    }
     public override string ToString()
     {
-
         var effectString = $"Effect: {{\n" + $"    Name: \"{Name}\",\n";
         // Formatear la representación de los parámetros
         string paramsRepresentation = Params.Count > 0 

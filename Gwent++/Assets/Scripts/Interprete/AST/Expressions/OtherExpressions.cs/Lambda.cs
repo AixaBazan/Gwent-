@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 class Lambda : Expression
 {
-    //poner como una expression la variable
     public  Variable Var {get; private set;}
     public Expression Condition {get; private set;}
     public Lambda(Variable variable, Expression condition, CodeLocation location) : base(location)

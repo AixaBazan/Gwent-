@@ -87,7 +87,51 @@ class MethodWithParams : Expression
     }
     public override void Evaluate()
     {
-       this.Value = Type.ToString();
+        expression.Evaluate();
+        param.Evaluate();
+        object ExpressionValue = expression.Value;
+        if (ExpressionValue is ContextGame context)
+        {
+            Player player = ContextGame.contextGame.GetPlayer((int)param.Value);
+            switch (method)
+            {
+                case "HandOfPlayer":
+                    this.Value = ContextGame.contextGame.HandOfPlayer(player);
+                    break;
+                case "DeckOfPlayer":
+                    this.Value = ContextGame.contextGame.DeckOfPlayer(player);
+                    break;
+                case "FieldOfPlayer":
+                    this.Value = ContextGame.contextGame.FieldOfPlayer(player);
+                    break;
+                case "GraveyardOfPlayer":
+                    this.Value = ContextGame.contextGame.GraveyardOfPlayer(player);
+                    break;
+                default:
+                    throw new Exception($"Metodo '{method}' invalido.");
+            }
+        }
+        else if(ExpressionValue is List<Card> list)
+        {
+            switch(method)
+            {
+                case "Push":
+                    ContextGame.contextGame.Push((Card)param.Value, list);
+                    break;
+                case "SendBottom":
+                    ContextGame.contextGame.SendBottom((Card)param.Value, list);
+                    break;
+                case "Remove":
+                    list.Remove((Card)param.Value);
+                    break;
+                case "Find":
+                    //implementar find
+                    //this.Value = ContextGame.contextGame.GraveyardOfPlayer(player);
+                    break;
+                default:
+                    throw new Exception($"Metodo '{method}' invalido.");
+            }
+        }
     }
     public override string ToString()
     {

@@ -29,24 +29,36 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {
-        Debug.Log("Empezo esto");
+        Debug.Log(CardDataBase.CreatedCards.Count);
+        //hacer metodo de llenar los decks
         //Se asigna el primer jugdor
         CurrentPlayer = false;
-
-        //Se annaden las cartas creadas por el usuario a cada Deck
-        // Cargar todos los prefabs en la carpeta Resources/Prefabs
-        GameObject[] loadedPrefabs1 = Resources.LoadAll<GameObject>("FairiesCard");
-
-        // Agregar los prefabs a la lista
-        ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck.AddRange(loadedPrefabs1);
+      
+        // Agregar las cartas a la lista
+        ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck.AddRange(CardDataBase.CreatedCards);
 
         // Comprobar los prefabs cargados
-        foreach (GameObject prefab in ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck)
+        foreach (Card card in ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck)
         {
-            Debug.Log("Prefab cargado: " + prefab.name);
+            Debug.Log("Carta cargada: " + card.name);
+            if(card.effects == null)
+            {
+               Debug.Log("efectos no encontrados");
+            }
+            else
+            {
+                Debug.Log(card.effects.Count);
+                foreach(var item in card.effects)
+                {
+                    Debug.Log(item);
+                }
+            }  
         }
         ContextGame.contextGame.Shuffle(ContextGame.contextGame.playerFairies.GetComponent<Player>().Deck);
         ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
+        ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
+        ContextGame.contextGame.Stole(ContextGame.contextGame.playerFairies.GetComponent<Player>());
+        ContextGame.contextGame.UpdateFront();
 
         // GameObject[] loadedPrefabs2 = Resources.LoadAll<GameObject>("DemonsCard");
         // player2.Deck.AddRange(loadedPrefabs2);

@@ -23,10 +23,13 @@ public class Card : ScriptableObject
     }
     public List<string> GameZone;
     //Efecto
-    public List<AssignEffect> effects;
+    public List<AssignEffect> effects {get; set;}
     public void ExecuteEffect()
     {
-
+        foreach(var effect in effects)
+        {
+            effect.Interprete();
+        }
     }
 }
 public enum CardType

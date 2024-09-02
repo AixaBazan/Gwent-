@@ -21,6 +21,7 @@ public class ContextGame : MonoBehaviour
     // public GameObject WeatherZone;
 
     #region Context Methods
+    // retorna el jugador q esta jugando
     public Player TriggerPlayer
     {
         get
@@ -28,11 +29,20 @@ public class ContextGame : MonoBehaviour
             if(GameManager.Instance.CurrentPlayer == false) return playerFairies.GetComponent<Player>();
             else return playerDemons.GetComponent<Player>();
         }
-    } // retorna el jugador q esta jugando
-    public List<GameObject> Board{ get{return GetCardsInBoard();}private set{}} //retorna todas las listas del campo
-    private List<GameObject> GetCardsInBoard()
+    } 
+    //Retorna el jugador enemigo
+    public Player EnemyPlayer
     {
-        List<GameObject> cards = new List<GameObject>();
+        get
+        {
+            if(GameManager.Instance.CurrentPlayer == true) return playerFairies.GetComponent<Player>();
+            else return playerDemons.GetComponent<Player>();
+        }
+    }
+    public List<Card> Board{ get{return GetCardsInBoard();}private set{}} //retorna todas las listas del campo
+    private List<Card> GetCardsInBoard()
+    {
+        List<Card> cards = new List<Card>();
         cards.AddRange(FieldOfPlayer(playerFairies.GetComponent<Player>()));
         //cards.AddRange(FieldOfPlayer(playerDemons.GetComponent<Player>()));
         //poner tamb las clima
@@ -44,23 +54,23 @@ public class ContextGame : MonoBehaviour
         else if(ID == 2) return playerDemons.GetComponent<Player>();
         else throw new Exception("No hay ningun jugador q contenga el ID asignado");
     }
-    public List<GameObject> Hand => HandOfPlayer(TriggerPlayer);
-    public List<GameObject> Deck => DeckOfPlayer(TriggerPlayer);
-    public List<GameObject> Field => FieldOfPlayer(TriggerPlayer);
-    public List<GameObject> Graveyard => GraveyardOfPlayer(TriggerPlayer);
-    public List<GameObject> HandOfPlayer(Player player)
+    public List<Card> Hand => HandOfPlayer(TriggerPlayer);
+    public List<Card> Deck => DeckOfPlayer(TriggerPlayer);
+    public List<Card> Field => FieldOfPlayer(TriggerPlayer);
+    public List<Card> Graveyard => GraveyardOfPlayer(TriggerPlayer);
+    public List<Card> HandOfPlayer(Player player)
     {
         return player.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards;
     }
-    public List<GameObject> FieldOfPlayer(Player player)
+    public List<Card> FieldOfPlayer(Player player)
     {
         return player.GetComponent<Player>().Field();
     }
-    public List<GameObject> GraveyardOfPlayer(Player player)
+    public List<Card> GraveyardOfPlayer(Player player)
     {
         return player.GetComponent<Player>().Cementery;
     }
-    public List<GameObject> DeckOfPlayer(Player player)
+    public List<Card> DeckOfPlayer(Player player)
     {
         return player.GetComponent<Player>().Deck;
     }
@@ -68,33 +78,40 @@ public class ContextGame : MonoBehaviour
 
     #region Methods
     //Falta Find
-    public void Push(GameObject item, List<GameObject> list) => list.Add(item);
-    public void SendBottom(GameObject item, List<GameObject> list) => list.Insert(0, item);
-    public GameObject Pop(List<GameObject> list)
+    public void Push(Card item, List<Card> list) => list.Add(item);
+    public void SendBottom(Card item, List<Card> list) => list.Insert(0, item);
+    public Card Pop(List<Card> list)
     {
-        GameObject card = list[list.Count -1];
+        Card card = list[list.Count -1];
         list.Remove(card);
         return card;
     }
     static System.Random random = new System.Random();
-    public void Shuffle(List<GameObject> list)
+    public void Shuffle(List<Card> list)
     {
         for (int i = 0; i < list.Count; i++)
         {
             int index = random.Next(0, list.Count - 1);
             //Change
-            GameObject Temp = list[i];
+            Card Temp = list[i];
             list[i] = list[index];
             list[index] = Temp;
         }
     }
-    //Metodo q permite robar una carta del deck
+    // //Metodo q permite robar una carta del deck
     public void Stole(Player player) 
     {
-        GameObject drawCard = Instantiate(DeckOfPlayer(player)[0], new Vector3(0, 0, 0), Quaternion.identity);
-        Debug.Log(drawCard.name);
-        drawCard.transform.SetParent(player.HandZone.transform, false);
-        player.Deck.Remove(DeckOfPlayer(player)[0]);
+        Card card = player.GetComponent<Player>().Deck[0];
+        player.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Add(card);
+        player.GetComponent<Player>().Deck.Remove(card);
     }  
+
+    public void UpdateFront()
+    {
+        playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
+        playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
+        playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
+        playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+    }
     #endregion
 }

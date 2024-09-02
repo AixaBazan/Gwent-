@@ -6,20 +6,19 @@ public class Player : MonoBehaviour
 {
     void Start()
     {
-        this.Cementery = new List<GameObject>();
-        this.Deck = new List<GameObject>();
+        this.Cementery = new List<Card>();
+        this.Deck = new List<Card>();
     }
     public int ID;
     public GameObject HandZone; 
     public GameObject MeleeZone;
     public GameObject RangedZone;
     public GameObject SiegeZone;
-    public List<GameObject> Deck;
-    public List<GameObject> Cementery;
-    public List<GameObject> Field ()
+    public List<Card> Deck;
+    public List<Card> Cementery;
+    public List<Card> Field ()
     {
-        List<GameObject> field = new List<GameObject>();
-        field = new List<GameObject>();
+        List<Card> field = new List<Card>();
         field.AddRange(MeleeZone.GetComponent<Zone>().Cards);
         field.AddRange(RangedZone.GetComponent<Zone>().Cards);
         field.AddRange(SiegeZone.GetComponent<Zone>().Cards);

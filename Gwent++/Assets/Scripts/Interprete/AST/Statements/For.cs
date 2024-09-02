@@ -37,10 +37,12 @@ class For : Stmt
     //revisar
     public override void Interprete()
     {
-        //foreach(var IterationVar in Collection)
-        //{
+        List<Card> collection = (List<Card>)AssociatedScope.Get(Collection);
+        foreach(Card card in collection)
+        {
+            AssociatedScope.Define(IterationVar, card);
             Body.Interprete();
-        //}
+        }
     }
     public override string ToString()
     {

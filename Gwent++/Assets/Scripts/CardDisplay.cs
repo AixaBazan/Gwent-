@@ -28,6 +28,6 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        CardManager.Instance.MoveCard(gameObject);
+        CardManager.Instance.MoveCard(card);
     }
 }

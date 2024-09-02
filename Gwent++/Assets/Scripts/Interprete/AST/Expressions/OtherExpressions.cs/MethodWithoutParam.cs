@@ -1,5 +1,6 @@
 using System;
-using System.Collections.Generic;class Method : Expression
+using System.Collections.Generic;
+class Method : Expression
 {
     public Method(Expression exp, string method, CodeLocation location): base(location)
     {
@@ -36,7 +37,22 @@ using System.Collections.Generic;class Method : Expression
     }
     public override void Evaluate()
     {
-        
+        expression.Evaluate();
+        List<Card> PropValue = (List<Card>)expression.Value;
+        if (PropValue is List<Card> list)
+        {
+            switch (method)
+            {
+                case "Pop":
+                    this.Value = ContextGame.contextGame.Pop(PropValue);
+                    break;
+                case "Shuffle":
+                    ContextGame.contextGame.Shuffle(PropValue);
+                    break;
+                default:
+                    throw new Exception($"Metodo '{method}' invalido.");
+            }
+        }
     }
     public override string ToString()
     {

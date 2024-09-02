@@ -77,13 +77,13 @@ public class Property : Expression
                 //     this.Value = unit.AttackType;
                 //     break;
                 default:
-                    throw new Exception($"Property '{Caller}' not found.");
+                    throw new Exception($"Propiedad '{Caller}' invalida.");
             }
         }
         else if(PropValue is ContextGame context)
         {
             //poner para q m devuelva listas d cartas
-             switch (Caller)
+            switch (Caller)
             {
                 case "Board":
                     this.Value = ContextGame.contextGame.Board;
