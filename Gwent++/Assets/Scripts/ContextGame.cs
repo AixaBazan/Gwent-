@@ -111,14 +111,19 @@ public class ContextGame : MonoBehaviour
 
     public void UpdateFront()
     {
+        double CounterFairies = 0;
         playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
-        playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
-        playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
-        playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+        CounterFairies += playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
+        CounterFairies += playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
+        CounterFairies += playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+        playerFairies.GetComponent<Player>().UpdateCounter(CounterFairies);
+
+        double CounterDemons = 0;
         playerDemons.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
-        playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
-        playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
-        playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+        CounterDemons += playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
+        CounterDemons += playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
+        CounterDemons += playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+        playerDemons.GetComponent<Player>().UpdateCounter(CounterDemons);
     }
 
     public void CleanBoard()
@@ -143,6 +148,7 @@ public class ContextGame : MonoBehaviour
             }
         }
         WeatherZone.GetComponent<Zone>().Cards.Clear();
+        UpdateFront();
     }
     private void CleanZone(List<Card> list, Player player)
     {

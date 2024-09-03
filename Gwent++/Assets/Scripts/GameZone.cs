@@ -6,8 +6,10 @@ using UnityEngine.UI;
 public class Zone : MonoBehaviour
 {
     public List<Card> Cards;
-    public void UpdateZone()
+    public double UpdateZone()
     {
+        double counter = 0;
+
         GridLayoutGroup gridLayoutGroup = GetComponent<GridLayoutGroup>();
    
         GameObject[] children = GetChildrenFromGridLayout(gridLayoutGroup);
@@ -22,8 +24,10 @@ public class Zone : MonoBehaviour
         //Instanciar los nuevos gameObjects segun las cartas q estan en la lista
         foreach (Card card in Cards)
         {
+            counter += card.Power;
             InstantiateCard(card, gridLayoutGroup);
         }
+        return counter;
     }
     //toma los gameObjects q estan actualmente en la zona dada
     private GameObject[] GetChildrenFromGridLayout(GridLayoutGroup grid)
