@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 class Var : Stmt
 {
     public Expression Name { get; private set;}
@@ -81,15 +82,18 @@ class Var : Stmt
         else if(Name is Property)
         {
             Name.Evaluate();
+            Property property = (Property)Name;
+            Card card = (Card)property.expression.Value;
+            Debug.Log(card.Name);
             if(Operator.Value == TokenValue.Assign)
             {
-                Name.Value = InitialValue.Value;
+                card.Power = (double)InitialValue.Value;
                 return;
             }
             if (Operator.Value == TokenValue.Increase)
-                Name.Value = (double)Name.Value + (double)InitialValue.Value;
+                card.Power = (double)Name.Value + (double)InitialValue.Value;
             else if(Operator.Value == TokenValue.Decrease)
-                Name.Value = (double)Name.Value - (double)InitialValue.Value;
+                card.Power = (double)Name.Value - (double)InitialValue.Value;
         }  
     }
     public override string ToString()

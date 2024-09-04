@@ -36,9 +36,6 @@ class Lambda : Expression
     }
     public override void Evaluate()
     {
-        Debug.Log("Entro a evaluar el predicate");
-        //Var.Evaluate(); //se le asocia su valor a la carta
-        Debug.Log("No paso del Var.Evaluate");
         Condition.Evaluate(); //se evalua la condicion
         this.Value = Condition.Value; //el valor es el resultado d evaluar la condicion
 

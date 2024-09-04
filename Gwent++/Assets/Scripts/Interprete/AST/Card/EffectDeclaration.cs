@@ -4,7 +4,6 @@ using System.Linq;
 public class Effect : AST
 {
     public Expression Name {get;private set;}
-    //arreglar para q sea un string
     public Token Targets {get; private set;}
     public Token Context {get; private set;}
     public Stmt Body {get; private set;}
@@ -29,6 +28,13 @@ public class Effect : AST
         if(Name.Type != ExpressionType.Text)
         {
             errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El nombre del efecto debe ser de tipo Texto"));
+            return false;
+        }
+        //Se chequea q no se hayan declarado dos efectos con el mismo nombre
+        Name.Evaluate();
+        if(context.effects.ContainsKey((string)Name.Value))
+        {
+            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El efecto " + Name.Value + " ya existe"));
             return false;
         }
 

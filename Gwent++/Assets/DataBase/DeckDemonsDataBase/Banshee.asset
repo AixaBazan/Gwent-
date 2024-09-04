@@ -19,6 +19,7 @@ MonoBehaviour:
   OriginalPower: 13
   Faction: Demons
   Type: 1
-  GameZone:
-  - Siege
+  IsPlayed: 0
+  Range: []
+  GameZone: 01000000
   effect: 0

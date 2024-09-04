@@ -127,7 +127,22 @@ public class CardComp : AST
         newCard.Faction = (string)Faction.Value;
         newCard.Description = "Carta creada por el usuario";
         newCard.Type = (CardType)Enum.Parse(typeof(CardType), (string)Type.Value); 
-        newCard.GameZone = range;
+        newCard.Range = range;
+        newCard.effect = ParticularEffect.UserEffect;
+        newCard.GameZone = new List<ValidZone>();
+        //Poner GameZone
+        if(newCard.Range.Contains("Melee"))
+        {
+            newCard.GameZone.Add(ValidZone.Melee);
+        }
+        if(newCard.Range.Contains("Ranged"))
+        {
+            newCard.GameZone.Add(ValidZone.Ranged);
+        }
+        if(newCard.Range.Contains("Siege"))
+        {
+            newCard.GameZone.Add(ValidZone.Siege);
+        }
         // Inicializar la lista de efectos 
         if (newCard.effects == null)
         {
@@ -150,7 +165,15 @@ public class CardComp : AST
         // Asignar la imagen a la carta
         newCard.Image = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Images/CardImages/DefaultImage.jpg");
 
-        // CreatedCards.CreatedCards.Add(newCard);
+        if(newCard.Faction == "Fairies")
+        {
+            CreatedCards.CreatedFairiesCards.Add(newCard);
+        }
+        else if(newCard.Faction == "Demons")
+        {
+            CreatedCards.CreatedDemonsCards.Add(newCard);
+        }
+       
     }
     //Arreglar ToString
     public override string ToString()

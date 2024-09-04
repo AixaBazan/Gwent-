@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/InitialMenu.unity
+    path: Assets/Scenes/MainMenu.unity
     guid: 2383f8168eeed8244beef982a02c4c02
   - enabled: 1
     path: Assets/Scenes/CardBuilder.unity
@@ -21,6 +21,6 @@ EditorBuildSettings:
     path: Assets/Scenes/PlayerDemonsWin.unity
     guid: 2edf781c3c00b5e438d8f186acf988d3
   - enabled: 1
-    path: Assets/Scenes/Empat.unity
+    path: Assets/Scenes/Draw.unity
     guid: a01a4f483129c284382f90a53fe5b447
   m_configObjects: {}

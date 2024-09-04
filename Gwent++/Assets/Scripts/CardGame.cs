@@ -22,16 +22,14 @@ public class Card : ScriptableObject
         }
         set{}
     }
-    public List<string> GameZone;
+    public List<string> Range;
+    public List<ValidZone> GameZone;
     //Efecto
     public ParticularEffect effect;
     public List<AssignEffect> effects {get; set;}
     public void ExecuteEffect()
     {
-        // foreach(var effect in effects)
-        // {
-        //     effect.Interprete();
-        // }
+        Effects.Instance.RunEffect(this);
     }
 }
 public enum CardType
@@ -42,10 +40,14 @@ public enum CardType
     Lider,
     Clima
 }
-public enum ParticularEffect
+public enum ValidZone
 {
-    None,
-    UserEffect,
-    MultiplyAttack
+    Melee,
+    Ranged,
+    Siege,
+    IncreaseMelee,
+    IncreaseRanged,
+    IncreaseSiege,
+    WeatherZone
 }
 

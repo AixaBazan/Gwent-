@@ -19,34 +19,45 @@ public class CardManager : MonoBehaviour
     }
     public void MoveCard(Card card)
     {
-        GameObject Zone;
+        GameObject Zone = null;
        
         Player owner = ContextGame.contextGame.GetPlayer(card.Owner);
 
-        GameObject Hand = owner.HandZone;
-
-        if(card.GameZone.Contains("Melee"))
+        if(card.GameZone.Contains(ValidZone.Melee))
         {
            Zone = owner.MeleeZone;
-           Move(Zone, owner, card);
         }
-        else if(card.GameZone.Contains("Ranged"))
+        else if(card.GameZone.Contains(ValidZone.Ranged))
         {
             Zone = owner.RangedZone;
-            Move(Zone, owner, card);
         }
-        else if(card.GameZone.Contains("Siege"))
+        else if(card.GameZone.Contains(ValidZone.Siege))
         {
             Zone = owner.SiegeZone;
-            Move(Zone, owner, card);
         }
+        else if(card.GameZone.Contains(ValidZone.IncreaseMelee))
+        {
+            Zone = owner.IncreaseMelee; 
+        }
+        else if(card.GameZone.Contains(ValidZone.IncreaseRanged))
+        {
+            Zone = owner.IncreaseRanged;
+        }
+        else if(card.GameZone.Contains(ValidZone.IncreaseSiege))
+        {
+            Zone = owner.IncreaseSiege;
+        }
+        else if(card.GameZone.Contains(ValidZone.WeatherZone))
+        {
+            Zone = ContextGame.contextGame.WeatherZone;
+        }
+        Move(Zone, owner, card);
     }
-    private void Move(GameObject Zone, Player player, Card Target)
+    private void Move(GameObject zone, Player player, Card card)
     {
-        Zone.GetComponent<Zone>().Cards.Add(Target);
-        player.Field.Add(Target);
-        player.HandZone.GetComponent<Zone>().Cards.Remove(Target);
-        Target.ExecuteEffect();
+        zone.GetComponent<Zone>().Cards.Add(card);
+        player.HandZone.GetComponent<Zone>().Cards.Remove(card);
+        card.ExecuteEffect();
         ContextGame.contextGame.UpdateFront();
     }
 }

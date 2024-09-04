@@ -19,6 +19,7 @@ MonoBehaviour:
   OriginalPower: 6
   Faction: Fairies
   Type: 1
-  GameZone:
-  - Ranged
+  IsPlayed: 0
+  Range: []
+  GameZone: 02000000
   effect: 2

@@ -17,7 +17,6 @@ public class Zone : MonoBehaviour
         // Ejemplo: Imprimir los nombres de los hijos y  destruirlos
         foreach (GameObject child in children)
         {
-            Debug.Log("Child Name: " + child.name);
             Destroy(child);
         }
 

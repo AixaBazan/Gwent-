@@ -27,6 +27,15 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        CardManager.Instance.MoveCard(card);
+        if(card.Owner == 1 && GameManager.Instance.CurrentPlayer == false && card.IsPlayed == false)
+        {
+            CardManager.Instance.MoveCard(card);
+            GameManager.Instance.ChangePlayerTurn();
+        }
+        else if(card.Owner == 2 && GameManager.Instance.CurrentPlayer == true && card.IsPlayed == false)
+        {
+            CardManager.Instance.MoveCard(card);
+            GameManager.Instance.ChangePlayerTurn();
+        }
     }
 }

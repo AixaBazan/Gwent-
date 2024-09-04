@@ -39,6 +39,12 @@ public class ContextGame : MonoBehaviour
             else return playerDemons.GetComponent<Player>();
         }
     }
+    public Player GetPlayer(int ID)
+    {
+        if (ID == 1) return playerFairies.GetComponent<Player>();
+        else if(ID == 2) return playerDemons.GetComponent<Player>();
+        else throw new Exception("No hay ningun jugador q contenga el ID asignado");
+    }
     public List<Card> Board{ get{return GetCardsInBoard();}private set{}} //retorna todas las listas del campo
     private List<Card> GetCardsInBoard()
     {
@@ -47,12 +53,6 @@ public class ContextGame : MonoBehaviour
         cards.AddRange(FieldOfPlayer(playerDemons.GetComponent<Player>()));
         cards.AddRange(WeatherZone.GetComponent<Zone>().Cards);
         return cards;
-    }
-    public Player GetPlayer(int ID)
-    {
-        if (ID == 1) return playerFairies.GetComponent<Player>();
-        else if(ID == 2) return playerDemons.GetComponent<Player>();
-        else throw new Exception("No hay ningun jugador q contenga el ID asignado");
     }
     public List<Card> Hand => HandOfPlayer(TriggerPlayer);
     public List<Card> Deck => DeckOfPlayer(TriggerPlayer);
@@ -64,7 +64,7 @@ public class ContextGame : MonoBehaviour
     }
     public List<Card> FieldOfPlayer(Player player)
     {
-        return player.GetComponent<Player>().Field;
+        return player.GetComponent<Player>().Field();
     }
     public List<Card> GraveyardOfPlayer(Player player)
     {
@@ -126,7 +126,7 @@ public class ContextGame : MonoBehaviour
         playerDemons.GetComponent<Player>().UpdateCounter(CounterDemons);
     }
 
-    public void CleanBoard()
+    public void CleanTheBoard()
     {
         CleanZone(playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
         CleanZone(playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
@@ -135,6 +135,12 @@ public class ContextGame : MonoBehaviour
         CleanZone(playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
         CleanZone(playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
         CleanZone(playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
+
+        for(int i = 0; i < 3; i++)
+        {
+            CleanZone(playerFairies.GetComponent<Player>().Increase[i].GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
+            CleanZone(playerDemons.GetComponent<Player>().Increase[i].GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
+        }
 
         foreach(Card card in WeatherZone.GetComponent<Zone>().Cards)
         {

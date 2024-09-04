@@ -48,7 +48,6 @@ class Method : Expression
                 break;
             case "Shuffle":
                 ContextGame.contextGame.Shuffle(PropValue);
-                Debug.Log("shuffleo");
                 break;
             default:
                 throw new Exception($"Metodo '{method}' invalido.");

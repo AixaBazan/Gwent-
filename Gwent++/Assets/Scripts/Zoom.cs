@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 //Script q se encarga de hacerle zoom a las cartas 
-public class Zoom : MonoBehaviour
+public class Zoom : MonoBehaviour, IPointerClickHandler
 {
     GameObject UbZoom;
     private GameObject zoomCard;
-    private Vector2 zoomScale = new Vector2(3, 3);
+    private Vector2 zoomScale = new Vector2(2.5f, 2.5f);
     public void Awake()
     {
         UbZoom = GameObject.Find("UbicarZoom");
@@ -22,6 +23,14 @@ public class Zoom : MonoBehaviour
     public void OnMouseExit()
     {
        Destroy(zoomCard);
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        Transform child = UbZoom.transform.GetChild(0);
+        if(child != null)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }
 

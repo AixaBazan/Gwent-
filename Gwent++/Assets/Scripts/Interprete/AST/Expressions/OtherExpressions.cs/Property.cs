@@ -50,12 +50,9 @@ public class Property : Expression
             return false;
         }
     }
-    //la lista en el backen va a ser d cartas
     public override void Evaluate()
     {
-        Debug.Log("Antes de evaluar la propiedad d la expresion lambda todo bien");
         expression.Evaluate();
-        Debug.Log("Se evaluo la prop de la expresion lambda");
         object PropValue = expression.Value;
         Debug.Log(PropValue);
         if (PropValue is Card unit)
@@ -66,35 +63,30 @@ public class Property : Expression
                     this.Value = unit.Name;
                     break;
                 case "Faction":
-                    this.Value = unit.Faction;
-                    Debug.Log("reconocio q era faccion y asigno el valor " + Value);
+                    this.Value = unit.Faction.ToString();
                     break;
                 case "Power":
                     this.Value = unit.Power;
                     break;
                 case "Type":
-                    this.Value = unit.Type;
+                    this.Value = unit.Type.ToString();
                     break;
                 case "Owner":
                     this.Value = unit.Owner;
                     break;
-                // case "Range":
-                //     this.Value = unit.AttackType;
-                //     break;
                 default:
                     throw new Exception($"Propiedad '{Caller}' invalida.");
             }
         }
         else if(PropValue is ContextGame context)
         {
-            //poner para q m devuelva listas d cartas
             switch (Caller)
             {
                 case "Board":
                     this.Value = ContextGame.contextGame.Board;
                     break;
                 case "TriggerPlayer":
-                    this.Value = (int)ContextGame.contextGame.TriggerPlayer.ID; //revisar si devolver el jugador o su ID
+                    this.Value = (int)ContextGame.contextGame.TriggerPlayer.ID;
                     break;
                 case "Hand":
                     this.Value = ContextGame.contextGame.HandOfPlayer(ContextGame.contextGame.TriggerPlayer); 

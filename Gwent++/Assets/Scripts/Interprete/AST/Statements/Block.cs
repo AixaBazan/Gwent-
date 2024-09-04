@@ -27,7 +27,6 @@ public class Block : Stmt
     {
         foreach(Stmt item in Statements)
         {
-            Debug.Log("entro al foreach del bloque");
             item.Interprete();
         }
     }

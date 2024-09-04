@@ -89,15 +89,11 @@ class MethodWithParams : Expression
     public override void Evaluate()
     {
         expression.Evaluate();
-        Debug.Log(expression.Value + "valor d la expresion antes d un metodo con parametro");
         param.Evaluate();
-        Debug.Log("valor del parametro " + param.Value);
         object ExpressionValue = expression.Value;
         if (ExpressionValue is ContextGame context)
         {
-            Debug.Log("reconocio q es un contexto");
             Player player = ContextGame.contextGame.GetPlayer((int)param.Value);
-            Debug.Log("player id " + player.ID);
             switch (method)
             {
                 case "HandOfPlayer":
@@ -105,7 +101,6 @@ class MethodWithParams : Expression
                     break;
                 case "DeckOfPlayer":
                     this.Value = ContextGame.contextGame.DeckOfPlayer(player);
-                    Debug.Log("asocio el value del deck " + this.Value);
                     break;
                 case "FieldOfPlayer":
                     this.Value = ContextGame.contextGame.FieldOfPlayer(player);
@@ -119,13 +114,10 @@ class MethodWithParams : Expression
         }
         else if(ExpressionValue is List<Card> list)
         {
-            Debug.Log("reconocio q es una lista, va a entrar al switch");
             switch(method)
             {
                 case "Push":
-                    Debug.Log("reconocio el push");
                     ContextGame.contextGame.Push((Card)param.Value, list);
-                    Debug.Log("pusheo");
                     break;
                 case "SendBottom":
                     ContextGame.contextGame.SendBottom((Card)param.Value, list);
@@ -135,7 +127,7 @@ class MethodWithParams : Expression
                     break;
                 case "Find":
                     //implementar find
-                    //this.Value = ContextGame.contextGame.GraveyardOfPlayer(player);
+                    //this.Value = ContextGame.contextGame.;
                     break;
                 default:
                     throw new Exception($"Metodo '{method}' invalido.");

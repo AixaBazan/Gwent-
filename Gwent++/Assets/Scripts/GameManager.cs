@@ -16,10 +16,26 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    //public bool currentPlayer = GameManager.Instance.CurrentPlayer;
     public bool CurrentPlayer{get; private set;} //si es false el turno es d fairies, si es true el turno es d demons
     public void ChangePlayerTurn()
     {
-        //revisar para cuando se pase
+        if(CurrentPlayer == false)
+        {
+            if(ContextGame.contextGame.playerFairies.GetComponent<Player>().PlayerPassed == true)
+            {
+                CurrentPlayer = true;
+                return;
+            }
+        }
+        else if(CurrentPlayer == true)
+        {
+            if(ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed == true)
+            {
+                CurrentPlayer = false;
+                return;
+            }
+        }
         this.CurrentPlayer = !CurrentPlayer;
     }
 
@@ -67,28 +83,31 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region EndRound
-    private bool End => ((ContextGame.contextGame.playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0 && ContextGame.contextGame.playerDemons.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0));
+    private bool End => ((ContextGame.contextGame.playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0 && ContextGame.contextGame.playerDemons.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0)
+                            || (ContextGame.contextGame.playerFairies.GetComponent<Player>().PlayerPassed == true && ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed == true)
+                            || (ContextGame.contextGame.playerFairies.GetComponent<Player>().PlayerPassed == true && ContextGame.contextGame.playerDemons.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0)
+                            || (ContextGame.contextGame.playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0 && ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed == true));
     private void EndRound()
     {
         //Se limpia el tablero
-        ContextGame.contextGame.CleanBoard();
+        ContextGame.contextGame.CleanTheBoard();
 
         //Se define quien gano
         if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points > ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
             Debug.Log("El jugador 1 gano la ronda");
-            ContextGame.contextGame.playerFairies.GetComponent<Player>().WinnedRounds ++ ;
+            ContextGame.contextGame.playerFairies.GetComponent<Player>().RoundsWon ++ ;
         }
         else if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points < ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
             Debug.Log("El jugador 2 gano la ronda");
-            ContextGame.contextGame.playerDemons.GetComponent<Player>().WinnedRounds ++ ;
+            ContextGame.contextGame.playerDemons.GetComponent<Player>().RoundsWon ++ ;
         }
         else if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points == ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
             Debug.Log("Empate!");
-            ContextGame.contextGame.playerFairies.GetComponent<Player>().WinnedRounds ++ ;
-            ContextGame.contextGame.playerDemons.GetComponent<Player>().WinnedRounds ++ ;
+            ContextGame.contextGame.playerFairies.GetComponent<Player>().RoundsWon ++ ;
+            ContextGame.contextGame.playerDemons.GetComponent<Player>().RoundsWon ++ ;
         }
         
         int FairiesWinnedRounds = ContextGame.contextGame.playerFairies.GetComponent<Player>().UpdateRounds();
@@ -111,7 +130,7 @@ public class GameManager : MonoBehaviour
         }
         else if(FWR == 2 && DWR == 2)
         {
-            SceneManager.LoadScene("Empate");
+            SceneManager.LoadScene("Draw");
         }
     }
     private void NewRound(int FairiesWinnedRounds, int DemonsWinnedRounds)
@@ -134,8 +153,8 @@ public class GameManager : MonoBehaviour
         {
             CurrentPlayer = false;
         } 
-        //J1CanPlay = false;
-        //J2CanPlay = false; 
+        ContextGame.contextGame.playerFairies.GetComponent<Player>().PlayerPassed = false;
+        ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed = false;
     }
     private void StoleTwoCards(Player player)
     {
