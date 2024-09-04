@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5ee112dcc4bbd44d881663ecb3cfef5, type: 3}
-  m_Name: Abaddon
+  m_Name: Moloch
   m_EditorClassIdentifier: 
-  Image: {fileID: 21300000, guid: f20b43ee139bb8d42936802a158f080f, type: 3}
-  Description: Multiplica por n su ataque
-  Name: Abaddon
-  Power: 9
-  OriginalPower: 9
+  Image: {fileID: 21300000, guid: 72bf673d0c151014cba18cde2952cc35, type: 3}
+  Description: Carta Oro
+  Name: Moloch
+  Power: 14
+  OriginalPower: 14
   Faction: 1
-  Type: 1
+  Type: 0
   IsPlayed: 0
   Range: []
-  GameZone: 00000000
-  effect: 2
+  GameZone: 02000000
+  effect: 0

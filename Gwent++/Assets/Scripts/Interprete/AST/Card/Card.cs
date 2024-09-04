@@ -124,7 +124,7 @@ public class CardComp : AST
         newCard.Name = (string)Name.Value;
         newCard.Power = (double)Power.Value;
         newCard.OriginalPower = newCard.Power; 
-        newCard.Faction = (string)Faction.Value;
+        newCard.Faction = (CardFaction)Enum.Parse(typeof(CardFaction), (string)Faction.Value);
         newCard.Description = "Carta creada por el usuario";
         newCard.Type = (CardType)Enum.Parse(typeof(CardType), (string)Type.Value); 
         newCard.Range = range;
@@ -165,11 +165,11 @@ public class CardComp : AST
         // Asignar la imagen a la carta
         newCard.Image = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Images/CardImages/DefaultImage.jpg");
 
-        if(newCard.Faction == "Fairies")
+        if(newCard.Faction == CardFaction.Fairies)
         {
             CreatedCards.CreatedFairiesCards.Add(newCard);
         }
-        else if(newCard.Faction == "Demons")
+        else if(newCard.Faction == CardFaction.Demons)
         {
             CreatedCards.CreatedDemonsCards.Add(newCard);
         }

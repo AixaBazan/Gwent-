@@ -17,7 +17,7 @@ MonoBehaviour:
   Name: Lamia
   Power: 16
   OriginalPower: 16
-  Faction: Demons
+  Faction: 1
   Type: 1
   IsPlayed: 0
   Range: []

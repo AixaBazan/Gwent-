@@ -9,35 +9,37 @@ public class Player : MonoBehaviour
     {
         this.Cementery = new List<Card>();
         this.Increase = new GameObject[3]{IncreaseMelee, IncreaseRanged, IncreaseSiege};
+        this.Field = new GameObject[3]{MeleeZone, RangedZone, SiegeZone};
         PlayerPassed = false;
         RoundsWon = 0;
         Points = 0;
         Rounds.text = RoundsWon.ToString();
     }
     public bool PlayerPassed;
-    public string Faction;
+    public CardFaction Faction;
     public int ID;
     public int RoundsWon;
     public TMP_Text Rounds;
     public double Points;
     public TMP_Text Counter;
+    public GameObject[] Field {get; private set;}
     public GameObject HandZone; 
     public GameObject MeleeZone;
     public GameObject RangedZone;
     public GameObject SiegeZone;
     public List<Card> Deck;
     public List<Card> Cementery;
-    public GameObject[] Increase;
+    public GameObject[] Increase {get; private set;}
     public GameObject IncreaseMelee;
     public GameObject IncreaseRanged;
     public GameObject IncreaseSiege;
-    //revisar field
-    public List<Card> Field()
+    public List<Card> GetField()
     {
         List<Card> field = new List<Card>();
-        field.AddRange(MeleeZone.GetComponent<Zone>().Cards);
-        field.AddRange(RangedZone.GetComponent<Zone>().Cards);
-        field.AddRange(SiegeZone.GetComponent<Zone>().Cards);
+        for(int i = 0; i < 3; i++)
+        {
+            field.AddRange(Field[i].GetComponent<Zone>().Cards);
+        }
         return field;
     }
     public int UpdateRounds()
@@ -47,7 +49,7 @@ public class Player : MonoBehaviour
     }
     public void UpdateCounter(double value)
     {
-        Points = value;
-        Counter.text = value.ToString();
+        this.Points = value;
+        Counter.text = Points.ToString();
     }
 }

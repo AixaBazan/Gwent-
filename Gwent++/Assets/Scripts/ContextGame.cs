@@ -64,7 +64,7 @@ public class ContextGame : MonoBehaviour
     }
     public List<Card> FieldOfPlayer(Player player)
     {
-        return player.GetComponent<Player>().Field();
+        return player.GetComponent<Player>().GetField();
     }
     public List<Card> GraveyardOfPlayer(Player player)
     {
@@ -112,36 +112,41 @@ public class ContextGame : MonoBehaviour
     public void UpdateFront()
     {
         double CounterFairies = 0;
-        playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
-        CounterFairies += playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
-        CounterFairies += playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
-        CounterFairies += playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
-        playerFairies.GetComponent<Player>().UpdateCounter(CounterFairies);
-
         double CounterDemons = 0;
+        //Se actualizan las cartas de cada zona
+        WeatherZone.GetComponent<Zone>().UpdateZone();
+        playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
         playerDemons.GetComponent<Player>().HandZone.GetComponent<Zone>().UpdateZone();
-        CounterDemons += playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().UpdateZone();
-        CounterDemons += playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().UpdateZone();
-        CounterDemons += playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().UpdateZone();
+        for(int i = 0; i < 3; i++)
+        {
+            CounterFairies += playerFairies.GetComponent<Player>().Field[i].GetComponent<Zone>().UpdateZone();
+            CounterDemons += playerDemons.GetComponent<Player>().Field[i].GetComponent<Zone>().UpdateZone();
+        }
+        //Se actualiza el contador
+        playerFairies.GetComponent<Player>().UpdateCounter(CounterFairies);
         playerDemons.GetComponent<Player>().UpdateCounter(CounterDemons);
     }
 
     public void CleanTheBoard()
     {
-        CleanZone(playerFairies.GetComponent<Player>().MeleeZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
-        CleanZone(playerFairies.GetComponent<Player>().RangedZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
-        CleanZone(playerFairies.GetComponent<Player>().SiegeZone.GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
-
-        CleanZone(playerDemons.GetComponent<Player>().MeleeZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
-        CleanZone(playerDemons.GetComponent<Player>().RangedZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
-        CleanZone(playerDemons.GetComponent<Player>().SiegeZone.GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
-
+        for(int i = 0; i < 3; i++)
+        {
+            CleanZone(playerFairies.GetComponent<Player>().Field[i].GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
+            CleanZone(playerDemons.GetComponent<Player>().Field[i].GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
+        }
+    
         for(int i = 0; i < 3; i++)
         {
             CleanZone(playerFairies.GetComponent<Player>().Increase[i].GetComponent<Zone>().Cards, playerFairies.GetComponent<Player>());
             CleanZone(playerDemons.GetComponent<Player>().Increase[i].GetComponent<Zone>().Cards, playerDemons.GetComponent<Player>());
         }
 
+        CleanWeatherZone();
+        
+        UpdateFront();
+    }
+    public void CleanWeatherZone()
+    {
         foreach(Card card in WeatherZone.GetComponent<Zone>().Cards)
         {
             if(card.Owner == 1)
@@ -154,9 +159,8 @@ public class ContextGame : MonoBehaviour
             }
         }
         WeatherZone.GetComponent<Zone>().Cards.Clear();
-        UpdateFront();
     }
-    private void CleanZone(List<Card> list, Player player)
+    public void CleanZone(List<Card> list, Player player)
     {
         foreach(Card card in list)
         {

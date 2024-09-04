@@ -17,8 +17,9 @@ MonoBehaviour:
   Name: Astaroth
   Power: 14
   OriginalPower: 14
-  Faction: Demons
+  Faction: 1
   Type: 1
-  GameZone:
-  - Ranged
+  IsPlayed: 0
+  Range: []
+  GameZone: 00000000
   effect: 0

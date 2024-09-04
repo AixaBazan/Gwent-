@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b5ee112dcc4bbd44d881663ecb3cfef5, type: 3}
-  m_Name: Abaddon
+  m_Name: ClimaMeleeFairies
   m_EditorClassIdentifier: 
-  Image: {fileID: 21300000, guid: f20b43ee139bb8d42936802a158f080f, type: 3}
-  Description: Multiplica por n su ataque
-  Name: Abaddon
-  Power: 9
-  OriginalPower: 9
-  Faction: 1
-  Type: 1
+  Image: {fileID: 21300000, guid: 47412addec939da4f9b4085f1b11f394, type: 3}
+  Description: Disminuye en 5 el poder de las cartas Melee
+  Name: Tormenta
+  Power: 0
+  OriginalPower: 0
+  Faction: 0
+  Type: 4
   IsPlayed: 0
-  Range: []
-  GameZone: 00000000
-  effect: 2
+  Range:
+  - Melee
+  GameZone: 06000000
+  effect: 4

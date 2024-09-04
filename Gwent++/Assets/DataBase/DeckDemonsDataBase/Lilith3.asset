@@ -17,7 +17,7 @@ MonoBehaviour:
   Name: Lilith
   Power: 11
   OriginalPower: 11
-  Faction: Demons
+  Faction: 1
   Type: 1
   IsPlayed: 0
   Range: []

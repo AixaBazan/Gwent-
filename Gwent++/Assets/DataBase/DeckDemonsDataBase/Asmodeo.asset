@@ -17,7 +17,7 @@ MonoBehaviour:
   Name: Asmodeo
   Power: 7
   OriginalPower: 7
-  Faction: Demons
+  Faction: 1
   Type: 1
   IsPlayed: 0
   Range: []
