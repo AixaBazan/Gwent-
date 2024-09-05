@@ -10,12 +10,14 @@ class MethodWithParams : Expression
         this.param = param;
     }
     public Expression expression{ get; set;}
-    public string method { get; set;}
+    string method;
     public Expression param {get; set;}
     public override object? Value {get;set;}
     public override ExpressionType Type {get; set;}
+    Scope AssociatedScope;
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
+        this.AssociatedScope = scope;
         expression.CheckSemantic(context, scope, errors);
         param.CheckSemantic(context, scope, errors);
         System.Console.WriteLine(param + " " + param.Type);
@@ -89,7 +91,10 @@ class MethodWithParams : Expression
     public override void Evaluate()
     {
         expression.Evaluate();
-        param.Evaluate();
+        if(method != "Find") //Si es Find el parametro se analiza recorriendo la lista ya q se analizan cartas
+        {
+            param.Evaluate();
+        }
         object ExpressionValue = expression.Value;
         if (ExpressionValue is ContextGame context)
         {
@@ -126,8 +131,20 @@ class MethodWithParams : Expression
                     list.Remove((Card)param.Value);
                     break;
                 case "Find":
-                    //implementar find
-                    //this.Value = ContextGame.contextGame.;
+                    //Se filtran las cartas segun el valor del predicate
+                    List<Card> filteredCards = new List<Card>();
+                    Lambda Param = (Lambda)param;
+                    foreach(Card card in (List<Card>)ExpressionValue)
+                    {
+                        AssociatedScope.Define(Param.Var.variable , card);
+                        Param.Evaluate();
+                        Debug.Log("valor del predicate " + Param.Value);
+                        if((bool)Param.Value)
+                        {
+                            filteredCards.Add(card);   
+                        }
+                    }
+        this.Value = filteredCards;
                     break;
                 default:
                     throw new Exception($"Metodo '{method}' invalido.");

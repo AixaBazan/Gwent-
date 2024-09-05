@@ -108,7 +108,6 @@ public class CardComp : AST
 
         return true;
     }
-    //Falta interpretar selector y efectos
     public void CardBuilder()
     {
         // Evaluar las propiedades de la carta
@@ -121,59 +120,105 @@ public class CardComp : AST
         Card newCard = ScriptableObject.CreateInstance<Card>();
 
         // Asignar propiedades a la nueva carta
+        //Propiedades que comparten las cartas:
         newCard.Name = (string)Name.Value;
-        newCard.Power = (double)Power.Value;
-        newCard.OriginalPower = newCard.Power; 
         newCard.Faction = (CardFaction)Enum.Parse(typeof(CardFaction), (string)Faction.Value);
         newCard.Description = "Carta creada por el usuario";
         newCard.Type = (CardType)Enum.Parse(typeof(CardType), (string)Type.Value); 
         newCard.Range = range;
         newCard.effect = ParticularEffect.UserEffect;
-        newCard.GameZone = new List<ValidZone>();
-        //Poner GameZone
-        if(newCard.Range.Contains("Melee"))
-        {
-            newCard.GameZone.Add(ValidZone.Melee);
-        }
-        if(newCard.Range.Contains("Ranged"))
-        {
-            newCard.GameZone.Add(ValidZone.Ranged);
-        }
-        if(newCard.Range.Contains("Siege"))
-        {
-            newCard.GameZone.Add(ValidZone.Siege);
-        }
         // Inicializar la lista de efectos 
         if (newCard.effects == null)
         {
             newCard.effects = new List<AssignEffect>();
         }
-        // Asignar efectos desde OnActivation
-        if (OnActivation != null && OnActivation.Count > 0)
+        //Asignar efectos
+        foreach(var item in OnActivation)
         {
-            foreach(var item in OnActivation)
-            {
-                Debug.Log(item);
-                newCard.effects.Add(item);
-            }
-            Debug.Log("Efectos Count :" + newCard.effects.Count);
+            newCard.effects.Add(item);
         }
-        else
-        {
-            Debug.Log("OnActivation es null o está vacío.");
-        }
+        Debug.Log("Efectos Count :" + newCard.effects.Count);
         // Asignar la imagen a la carta
         newCard.Image = AssetDatabase.LoadAssetAtPath<Sprite>("Assets/Images/CardImages/DefaultImage.jpg");
 
-        if(newCard.Faction == CardFaction.Fairies)
+        if(newCard.Type == CardType.Oro || newCard.Type == CardType.Plata)
         {
-            CreatedCards.CreatedFairiesCards.Add(newCard);
+            newCard.Power = (double)Power.Value;
+            newCard.OriginalPower = newCard.Power; 
+            newCard.GameZone = new List<ValidZone>();
+            //Poner GameZone
+            if(newCard.Range.Contains("Melee"))
+            {
+                newCard.GameZone.Add(ValidZone.Melee);
+            }
+            if(newCard.Range.Contains("Ranged"))
+            {
+                newCard.GameZone.Add(ValidZone.Ranged);
+            }
+            if(newCard.Range.Contains("Siege"))
+            {
+                newCard.GameZone.Add(ValidZone.Siege);
+            }
         }
-        else if(newCard.Faction == CardFaction.Demons)
+        else if(newCard.Type == CardType.Clima)
         {
-            CreatedCards.CreatedDemonsCards.Add(newCard);
+            newCard.Power = 0;
+            newCard.OriginalPower = 0; 
+            newCard.GameZone = new List<ValidZone>();
+            //Poner GameZone
+            newCard.GameZone.Add(ValidZone.WeatherZone);
         }
-       
+        else if(newCard.Type == CardType.Aumento)
+        {
+            newCard.Power = 0;
+            newCard.OriginalPower = 0; 
+            newCard.GameZone = new List<ValidZone>();
+            //Poner GameZone
+            if(newCard.Range.Contains("Melee"))
+            {
+                newCard.GameZone.Add(ValidZone.IncreaseMelee);
+            }
+            if(newCard.Range.Contains("Ranged"))
+            {
+                newCard.GameZone.Add(ValidZone.IncreaseRanged);
+            }
+            if(newCard.Range.Contains("Siege"))
+            {
+                newCard.GameZone.Add(ValidZone.IncreaseSiege);
+            }
+        }
+        else if(newCard.Type == CardType.Lider)
+        {
+            newCard.Power = 0;
+            newCard.OriginalPower = 0; 
+            newCard.GameZone = new List<ValidZone>();
+            //Poner GameZone
+            newCard.GameZone.Add(ValidZone.LeaderZone);
+        }
+  
+        //Annadir cartas a sus respectivas listas, para luego cargarlas en el juego
+        if(newCard.Type == CardType.Lider)
+        {
+            if(newCard.Faction == CardFaction.Fairies)
+            {
+                CreatedCards.FairiesLeader = newCard;
+            }
+            else if(newCard.Faction == CardFaction.Demons)
+            {
+                CreatedCards.DemonsLeader = newCard;
+            }
+        }
+        else
+        {
+            if(newCard.Faction == CardFaction.Fairies)
+            {
+                CreatedCards.CreatedFairiesCards.Add(newCard);
+            }
+            else if(newCard.Faction == CardFaction.Demons)
+            {
+                CreatedCards.CreatedDemonsCards.Add(newCard);
+            }
+        }
     }
     //Arreglar ToString
     public override string ToString()

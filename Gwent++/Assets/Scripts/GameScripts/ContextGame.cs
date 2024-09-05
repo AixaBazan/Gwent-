@@ -77,7 +77,10 @@ public class ContextGame : MonoBehaviour
     #endregion
 
     #region List Methods
-    //Falta Find
+    public void PushGame(Card item, List<Card> list)
+    {
+        
+    }
     public void Push(Card item, List<Card> list) => list.Add(item);
     public void SendBottom(Card item, List<Card> list) => list.Insert(0, item);
     public Card Pop(List<Card> list)

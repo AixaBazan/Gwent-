@@ -38,7 +38,6 @@ class Lambda : Expression
     {
         Condition.Evaluate(); //se evalua la condicion
         this.Value = Condition.Value; //el valor es el resultado d evaluar la condicion
-
     }
     public override string ToString()
     {

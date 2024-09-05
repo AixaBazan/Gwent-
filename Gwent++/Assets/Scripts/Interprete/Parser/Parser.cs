@@ -123,7 +123,7 @@ class Parser
         Expression Name = null;
         Selector Select = null;
         List<(string,Expression)> Params = new List<(string, Expression)>();
-        AssignEffect PostAction = null;
+        PostAction postAction = null;
         do
         {
             try
@@ -146,8 +146,12 @@ class Parser
                 Select = SELECTOR(loc);
             }
             //revisar
-            else if (Stream.Match(TokenValue.postAction)) PostAction = assignEffect(Stream.Previous().Location);
-
+            else if (Stream.Match(TokenValue.postAction))
+            {
+                Stream.Consume(TokenValue.colon, "Se esperaban : despues de PostAction");
+                Stream.Consume(TokenValue.OpenCurlyBracket, "Se esperaba { para iniciar la declaracion del PostAction");
+                postAction = new PostAction(assignEffect(Stream.Previous().Location), Stream.Previous().Location);
+            } 
             else throw new CompilingError(Stream.Peek().Location, ErrorCode.Invalid, "Asignacion de efecto invalida");
 
             if(!Stream.Comma())
@@ -162,9 +166,7 @@ class Parser
         }while(!Stream.Match(TokenValue.ClosedCurlyBracket));
 
         if(Name is null) throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "No se declaro el nombre del efecto");
-        //if(Select is null) throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "No se declaro el campo Selector de la carta");
-
-        return new AssignEffect(Name, Params, Select, location);
+        return new AssignEffect(Name, Params, Select, postAction, location);
     }
     private (Expression, List<(string ,Expression)>) UpdateNameAndParams()
     {
@@ -369,6 +371,7 @@ class Parser
         else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba un identificador como tipo del parametro");
         return (id,type);
     }
+    #region Statements
     //Sentencias
     public Stmt ActionBody()
     {
@@ -464,6 +467,7 @@ class Parser
         Expression initializer = expression();
         return new Var(Id ,initializer,op, loc);
     }
+    #endregion
     #endregion
 
     //Parseando expresiones

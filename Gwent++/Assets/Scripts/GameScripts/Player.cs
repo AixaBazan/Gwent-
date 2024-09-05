@@ -42,6 +42,8 @@ public class Player : MonoBehaviour
         }
         return field;
     }
+    public GameObject LeaderZone;
+    public Card Leader;
     public int UpdateRounds()
     {
         Rounds.text = RoundsWon.ToString();

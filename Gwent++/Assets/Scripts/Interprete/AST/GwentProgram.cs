@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-/* This node represents a program. The program has an errors list and some cards
- and elements represented by dictionaries. Every Card and Element is acceced by his id */
+using UnityEngine;
 public class GwentProgram : Stmt
 {
     public List<Effect> Effects {get; set;}
@@ -35,6 +34,7 @@ public class GwentProgram : Stmt
 
     public override void Interprete()
     {
+        Debug.Log("entro a interpretar el program");
         foreach (CardComp card in Cards)
         {
             card.CardBuilder();

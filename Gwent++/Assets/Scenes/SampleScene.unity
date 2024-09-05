@@ -123,6 +123,106 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &10666896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 10666897}
+  - component: {fileID: 10666900}
+  - component: {fileID: 10666899}
+  - component: {fileID: 10666898}
+  m_Layer: 5
+  m_Name: FairiesLeader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &10666897
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10666896}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1023407888}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 2.6341, y: 152.3783}
+  m_SizeDelta: {x: 105.2682, y: 134.2433}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &10666898
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10666896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 2
+  m_StartAxis: 1
+  m_CellSize: {x: 100, y: 120}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
+  m_ConstraintCount: 1
+--- !u!114 &10666899
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10666896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &10666900
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10666896}
+  m_CullTransparentMesh: 1
 --- !u!1 &120371980
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,6 +397,7 @@ RectTransform:
   - {fileID: 245430087}
   - {fileID: 1364130560}
   - {fileID: 974488170}
+  - {fileID: 807496850}
   m_Father: {fileID: 605005791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -317,7 +418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPassed: 0
-  Faction: Demons
+  Faction: 0
   ID: 2
   RoundsWon: 0
   Rounds: {fileID: 1364130561}
@@ -340,11 +441,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2fd625f6f17e9e5408c1c8482d96df99, type: 2}
   - {fileID: 11400000, guid: 66367130a1690f94f86f445a3bffb015, type: 2}
   - {fileID: 11400000, guid: dabe862cb39fc0a45a67fd2bdab6c253, type: 2}
+  - {fileID: 11400000, guid: 4e228b91968a97c439adde8472a6e106, type: 2}
   Cementery: []
-  Increase: []
   IncreaseMelee: {fileID: 1867099270}
   IncreaseRanged: {fileID: 386647214}
   IncreaseSiege: {fileID: 1164886915}
+  LeaderZone: {fileID: 807496849}
+  Leader: {fileID: 11400000, guid: 6fc69651f59739e418db401d1d423da8, type: 2}
 --- !u!1 &222812155
 GameObject:
   m_ObjectHideFlags: 0
@@ -902,11 +1005,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 763.7289
+      value: 767
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -144
+      value: -120.81
       objectReference: {fileID: 0}
     - target: {fileID: 2672022275401707899, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1923,6 +2026,106 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3855454439074172537, guid: c59ca7338de881a4c88241209a0518b3, type: 3}
   m_PrefabInstance: {fileID: 806550928}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &807496849
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 807496850}
+  - component: {fileID: 807496853}
+  - component: {fileID: 807496852}
+  - component: {fileID: 807496851}
+  m_Layer: 5
+  m_Name: DemonsLeader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &807496850
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807496849}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 141704722}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.000005722, y: -162.88}
+  m_SizeDelta: {x: 105.2682, y: 134.2433}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &807496851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807496849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 4
+  m_StartCorner: 2
+  m_StartAxis: 1
+  m_CellSize: {x: 100, y: 120}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
+  m_ConstraintCount: 1
+--- !u!114 &807496852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807496849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &807496853
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 807496849}
+  m_CullTransparentMesh: 1
 --- !u!1001 &883717178
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2386,6 +2589,7 @@ RectTransform:
   - {fileID: 1842230423}
   - {fileID: 120371981}
   - {fileID: 246163301}
+  - {fileID: 10666897}
   m_Father: {fileID: 605005791}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -2406,7 +2610,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerPassed: 0
-  Faction: Fairies
+  Faction: 0
   ID: 1
   RoundsWon: 0
   Rounds: {fileID: 120371982}
@@ -2429,11 +2633,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d86a80a0c4101cd4d9914bdf2689cd38, type: 2}
   - {fileID: 11400000, guid: c06618636f833b54c98fa69662baaa66, type: 2}
   - {fileID: 11400000, guid: bd88b35e3c6261146a8b088d416a244d, type: 2}
+  - {fileID: 11400000, guid: ad9a1c065855915468407b5970cd79f8, type: 2}
   Cementery: []
-  Increase: []
   IncreaseMelee: {fileID: 1431212286}
   IncreaseRanged: {fileID: 472451443}
   IncreaseSiege: {fileID: 795387352}
+  LeaderZone: {fileID: 10666896}
+  Leader: {fileID: 11400000, guid: f57b2f4a232764c46bb68ea440dbf131, type: 2}
 --- !u!1001 &1164886913
 PrefabInstance:
   m_ObjectHideFlags: 0

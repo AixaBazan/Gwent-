@@ -39,7 +39,8 @@ public enum CardType
     Aumento,
     Lider,
     Clima,
-    Despeje
+    Despeje,
+    Señuelo
 }
 public enum ValidZone
 {
@@ -49,7 +50,8 @@ public enum ValidZone
     IncreaseMelee,
     IncreaseRanged,
     IncreaseSiege,
-    WeatherZone
+    WeatherZone,
+    LeaderZone
 }
 public enum CardFaction
 {

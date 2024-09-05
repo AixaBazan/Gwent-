@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEditor;
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
@@ -43,6 +45,15 @@ public class GameManager : MonoBehaviour
     {
         //Se asigna el primer jugdor
         CurrentPlayer = false;
+        //Se cambia la carta lider si el usuario creo una
+        if(CreatedCards.FairiesLeader != null)
+        {
+            ContextGame.contextGame.playerFairies.GetComponent<Player>().Leader = CreatedCards.FairiesLeader;
+        }
+        if(CreatedCards.DemonsLeader != null)
+        {
+            ContextGame.contextGame.playerDemons.GetComponent<Player>().Leader = CreatedCards.FairiesLeader;
+        }
         //Se realizan las funciones de inicio de juego
         StartGame(ContextGame.contextGame.playerFairies.GetComponent<Player>(), CreatedCards.CreatedFairiesCards);
         StartGame(ContextGame.contextGame.playerDemons.GetComponent<Player>(), CreatedCards.CreatedDemonsCards);
@@ -58,6 +69,9 @@ public class GameManager : MonoBehaviour
     #region StartGame
     private void StartGame(Player player, List<Card> CreatedCards)
     {
+        //Se annade el Lider a la escena
+        GridLayoutGroup gridLayoutGroup = player.LeaderZone.GetComponent<GridLayoutGroup>();
+        player.HandZone.GetComponent<Zone>().InstantiateCard(player.Leader, gridLayoutGroup);
         //Se actualizan las cartas con su poder original y el booleano que indica q ya se jugo la carta
         foreach(var card in player.Deck)
         {

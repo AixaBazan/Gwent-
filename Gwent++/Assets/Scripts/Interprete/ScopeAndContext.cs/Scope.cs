@@ -1,8 +1,20 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+public class ValuePair
+{
+    public AssignEffect Value1 { get; set; }
+    public AssignEffect Value2 { get; set; }
+
+    public ValuePair(AssignEffect value1, AssignEffect value2)
+    {
+        Value1 = value1;
+        Value2 = value2;
+    }
+}
 public class Scope 
 {
+    public ValuePair EffectAndPostAction;
     private Dictionary<string, object> values = new Dictionary<string, object>(); //diccionario nombre de la variable - valor
     private Dictionary<string, ExpressionType> types = new Dictionary<string, ExpressionType>(); // diccionario nombre de la variable - tipo
     public Scope? Parent {get; private set;}

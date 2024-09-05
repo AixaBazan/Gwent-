@@ -46,7 +46,7 @@ public class Zone : MonoBehaviour
         return children;
     }
 
-    private void InstantiateCard(Card card, GridLayoutGroup gridLayoutGroup)
+    public void InstantiateCard(Card card, GridLayoutGroup gridLayoutGroup)
     {
         // Instanciar el prefab y asignar el Scriptable Object
         GameObject cardPrefab = AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Prefabs/CardPrefab.prefab");
