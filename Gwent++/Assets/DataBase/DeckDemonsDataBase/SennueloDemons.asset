@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SennueloDemons
   m_EditorClassIdentifier: 
   Image: {fileID: 21300000, guid: 862f539c62184654aaa3f70002066770, type: 3}
-  Description: Se cambia por la carta de mayor poder del campo propio
+  Description: 'Sustituye a la carta de mayor poder '
   Name: "Se\xF1uelo"
   Power: 0
   OriginalPower: 0

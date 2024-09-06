@@ -42,7 +42,6 @@ class MethodWithParams : Expression
                 {
                     if(param.Type != ExpressionType.Card)
                     {
-                        System.Console.WriteLine("entro aqui");
                         errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Las listas reciben como parametro un objeto de tipo carta"));
                         Type = ExpressionType.ErrorType;
                         return false;
@@ -122,13 +121,13 @@ class MethodWithParams : Expression
             switch(method)
             {
                 case "Push":
-                    ContextGame.contextGame.Push((Card)param.Value, list);
+                    ContextGame.contextGame.PushGame((Card)param.Value, list);
                     break;
                 case "SendBottom":
-                    ContextGame.contextGame.SendBottom((Card)param.Value, list);
+                    ContextGame.contextGame.SendBottomGame((Card)param.Value, list);
                     break;
                 case "Remove":
-                    list.Remove((Card)param.Value);
+                    ContextGame.contextGame.RemoveGame((Card)param.Value, list);
                     break;
                 case "Find":
                     //Se filtran las cartas segun el valor del predicate

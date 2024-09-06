@@ -1,16 +1,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 public enum ParticularEffect
 {
-    None,
-    UserEffect,
-    MultiplyAttack,
-    Increase,
-    Weather,
-    CleanWeather,
-    Decoy,
-    DrawCard
+    None, UserEffect, MultiplyAttack, Increase, Weather, CleanWeather, Decoy,
+    DrawCard, FairiesLeaderEffect, DemonsLeaderEffect, DeleteRowWithFewerCards
 }
 public class Effects : MonoBehaviour 
 {
@@ -29,6 +24,7 @@ public class Effects : MonoBehaviour
     public void RunEffect(Card card)
     {
         Player player = ContextGame.contextGame.GetPlayer(card.Owner);
+        Player enemy = ContextGame.contextGame.EnemyPlayer;
 
         if(card.effect == ParticularEffect.None)
         {
@@ -44,7 +40,6 @@ public class Effects : MonoBehaviour
         }
         else if(card.effect == ParticularEffect.MultiplyAttack)
         {
-            Debug.Log("Se activo el efecto del mult por n su ataque");
             MultiplyPower(player, card);
         }
         else if(card.effect == ParticularEffect.Increase)
@@ -86,11 +81,27 @@ public class Effects : MonoBehaviour
         }
         else if(card.effect == ParticularEffect.Decoy)
         {
-
+            Decoy(player.GetField(), player, card);
         }
         else if(card.effect == ParticularEffect.DrawCard)
         {
             ContextGame.contextGame.Stole(player);
+        }
+        else if(card.effect == ParticularEffect.FairiesLeaderEffect)
+        {
+            //Aumenta en 10 el poder de las cartas Plata de su campo
+            ModificPower(10, player.GetField());
+        }
+        else if(card.effect == ParticularEffect.DemonsLeaderEffect)
+        {
+            //Destruye la fila con mas cartas del jugador contrario
+            List<Card> list = enemy.Field.OrderByDescending(c => c.GetComponent<Zone>().Cards.Count()).FirstOrDefault().GetComponent<Zone>().Cards;
+            ContextGame.contextGame.CleanZone(list, enemy);
+        }
+        else if(card.effect == ParticularEffect.DeleteRowWithFewerCards)
+        {
+            List<Card> list = enemy.Field.OrderBy(c => c.GetComponent<Zone>().Cards.Count()).FirstOrDefault().GetComponent<Zone>().Cards;
+            ContextGame.contextGame.CleanZone(list, enemy);
         }
     }
     #region Card Effects
@@ -117,24 +128,33 @@ public class Effects : MonoBehaviour
     private void Decoy(List<Card> list, Player player, Card decoy)
     {
         Card card = CardWithGreaterPower(list);
-        player.HandZone.GetComponent<Zone>().Cards.Add(card);
-        player.HandZone.GetComponent<Zone>().Cards.Remove(decoy);
-        card.IsPlayed = false;
-        if(card != null && card.GameZone.Contains(ValidZone.Melee))
-        {
-            player.MeleeZone.GetComponent<Zone>().Cards.Remove(card);
-            player.MeleeZone.GetComponent<Zone>().Cards.Add(decoy);
+        if(card != null)
+        {   
+            player.HandZone.GetComponent<Zone>().Cards.Add(card);
+            player.HandZone.GetComponent<Zone>().Cards.Remove(decoy);
+            card.IsPlayed = false;
+            decoy.IsPlayed = true;
+            if(card.GameZone.Contains(ValidZone.Melee))
+            {
+                player.MeleeZone.GetComponent<Zone>().Cards.Remove(card);
+                player.MeleeZone.GetComponent<Zone>().Cards.Add(decoy);
+            }
+            else if(card.GameZone.Contains(ValidZone.Ranged))
+            {
+                player.RangedZone.GetComponent<Zone>().Cards.Remove(card);
+                player.RangedZone.GetComponent<Zone>().Cards.Add(decoy);
+            }
+            else if(card.GameZone.Contains(ValidZone.Siege))
+            {
+                player.SiegeZone.GetComponent<Zone>().Cards.Remove(card);
+                player.SiegeZone.GetComponent<Zone>().Cards.Add(decoy);
+            }
         }
-        else if(card != null && card.GameZone.Contains(ValidZone.Ranged))
+        else
         {
-            player.RangedZone.GetComponent<Zone>().Cards.Remove(card);
-            player.RangedZone.GetComponent<Zone>().Cards.Add(decoy);
+            Debug.Log("No hay cartas disponibles en el campo para ser cambiadas por el sennuelo");
         }
-        else if(card != null && card.GameZone.Contains(ValidZone.Siege))
-        {
-            player.SiegeZone.GetComponent<Zone>().Cards.Remove(card);
-            player.SiegeZone.GetComponent<Zone>().Cards.Add(decoy);
-        }
+        
     }
     private Card CardWithGreaterPower(List<Card> list)
     {
@@ -142,7 +162,7 @@ public class Effects : MonoBehaviour
         double GreaterPower = int.MinValue;
         foreach(var item in list)
         {
-            if(item.Power > GreaterPower)
+            if(item.Power > GreaterPower && item.Type == CardType.Plata)
             {
                 card = item;
                 GreaterPower = item.Power;

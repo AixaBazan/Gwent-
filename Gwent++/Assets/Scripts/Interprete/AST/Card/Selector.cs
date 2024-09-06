@@ -127,7 +127,7 @@ public class Selector : Stmt
             if((bool)Predicate.Value)
             {
                 filteredCards.Add(card);
-                if((bool)Single.Value == false)
+                if((bool)Single.Value == true)
                 { 
                     break;
                 }

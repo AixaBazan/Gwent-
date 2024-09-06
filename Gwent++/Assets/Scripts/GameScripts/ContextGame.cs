@@ -77,16 +77,99 @@ public class ContextGame : MonoBehaviour
     #endregion
 
     #region List Methods
+    //Push Method
     public void PushGame(Card item, List<Card> list)
     {
-        
+        if(CompareList(list, FieldOfPlayer(playerFairies.GetComponent<Player>())) || CompareList(list, FieldOfPlayer(playerDemons.GetComponent<Player>())) || CompareList(list, Board))
+        {
+            CardManager.Instance.MoveCard(item);
+        }
+        else
+        {
+            Push(item, list);
+        }
     }
     public void Push(Card item, List<Card> list) => list.Add(item);
+
+    //SendBottomMethod
+    public void SendBottomGame(Card item, List<Card> list)
+    {
+        if(CompareList(list, FieldOfPlayer(playerFairies.GetComponent<Player>())) || CompareList(list, FieldOfPlayer(playerDemons.GetComponent<Player>())) || CompareList(list, Board))
+        {
+            CardManager.Instance.MoveCard(item);
+            //Se cambia su posicion a las pos 0
+            Player player = GetPlayer(item.Owner);
+            if(player.MeleeZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                CambiarAlPrincipio(player.MeleeZone.GetComponent<Zone>().Cards);
+            }
+            else if(player.RangedZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                CambiarAlPrincipio(player.RangedZone.GetComponent<Zone>().Cards);
+            }
+            else if(player.SiegeZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                CambiarAlPrincipio(player.SiegeZone.GetComponent<Zone>().Cards);
+            }
+            else if(WeatherZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                CambiarAlPrincipio(WeatherZone.GetComponent<Zone>().Cards);
+            }
+        }
+        else
+        {
+            SendBottom(item, list);
+        }
+    }
     public void SendBottom(Card item, List<Card> list) => list.Insert(0, item);
+    private void CambiarAlPrincipio(List<Card> list)
+    {
+        int LastIndex = list.Count - 1;
+        Card LastCard = list[LastIndex];
+        list.RemoveAt(LastIndex);
+        list.Insert(0, LastCard);
+    }
+    // RemoveMethod
+    public void RemoveGame(Card item, List<Card> list)
+    {
+        if(CompareList(list, FieldOfPlayer(playerFairies.GetComponent<Player>())) || CompareList(list, FieldOfPlayer(playerDemons.GetComponent<Player>())) || CompareList(list, Board))
+        {
+            Player player = GetPlayer(item.Owner);
+            if(player.MeleeZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                player.MeleeZone.GetComponent<Zone>().Cards.Remove(item);
+            }
+            else if(player.RangedZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                player.RangedZone.GetComponent<Zone>().Cards.Remove(item);
+            }
+            else if(player.SiegeZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                player.SiegeZone.GetComponent<Zone>().Cards.Remove(item);
+            }
+            else if(WeatherZone.GetComponent<Zone>().Cards.Contains(item))
+            {
+                WeatherZone.GetComponent<Zone>().Cards.Remove(item);
+            }
+        }
+        else
+        {
+            list.Remove(item);
+        }
+    }
+    private bool CompareList(List<Card> list1, List<Card> list2)
+    {
+        if(list1.Count != list2.Count) return false;
+        for (int i = 0; i < list1.Count; i++)
+        {
+            if(list1[i] != list2[i]) return false;
+        }
+        return true;
+    }
     public Card Pop(List<Card> list)
     {
         Card card = list[list.Count -1];
-        list.Remove(card);
+        RemoveGame(card, list);
         return card;
     }
     static System.Random random = new System.Random();

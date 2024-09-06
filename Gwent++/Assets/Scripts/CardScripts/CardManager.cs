@@ -23,13 +23,20 @@ public class CardManager : MonoBehaviour
        
         Player owner = ContextGame.contextGame.GetPlayer(card.Owner);
 
-        if(card.Type == CardType.Lider || card.Type == CardType.Señuelo)
+        if(card.Type == CardType.Lider)
+        {
+            card.IsPlayed = true;
+            card.ExecuteEffect();
+            ContextGame.contextGame.UpdateFront();
+        }
+        else if(card.Type == CardType.Señuelo)
         {
             card.ExecuteEffect();
             ContextGame.contextGame.UpdateFront();
         }
         else
         {
+            card.IsPlayed = true;
             if(card.GameZone.Contains(ValidZone.Melee))
             {
             Zone = owner.MeleeZone;

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Orteo
   m_EditorClassIdentifier: 
   Image: {fileID: 21300000, guid: 8f18b35a34c29e8488e54dcc02bb48d3, type: 3}
-  Description: Carta Oro
+  Description: Elimina la fila con menos unidades del enemigo
   Name: Orteo
   Power: 10
   OriginalPower: 10
@@ -22,4 +22,4 @@ MonoBehaviour:
   IsPlayed: 0
   Range: []
   GameZone: 02000000
-  effect: 0
+  effect: 10

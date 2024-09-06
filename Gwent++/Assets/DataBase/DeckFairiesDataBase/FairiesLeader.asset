@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FairiesLeader
   m_EditorClassIdentifier: 
   Image: {fileID: 21300000, guid: 70994af214aa26a42bac6da2a701ad42, type: 3}
-  Description: Carta Lider Fairies
+  Description: Aumenta en 10 el poder de las cartas Plata de su campo
   Name: Aurora
   Power: 0
   OriginalPower: 0
@@ -22,4 +22,4 @@ MonoBehaviour:
   IsPlayed: 0
   Range: []
   GameZone: 07000000
-  effect: 0
+  effect: 8
