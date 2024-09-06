@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 public class Print : Stmt
 {
-    public Expression expression { get; }
+    Expression expression;
     public override Scope AssociatedScope{get;set;}
     public Print(Expression exp, CodeLocation location) : base(location)
     {

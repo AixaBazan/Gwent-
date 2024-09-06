@@ -7,7 +7,7 @@ class Variable: UnaryExpression
     {
         this.variable = variable;
     }
-    public override object? Value{get; set;}
+    public override object Value{get; set;}
     public string variable { get; set;}
     public override ExpressionType Type{get;set;}
     Scope AssociatedScope {get; set;}
@@ -25,9 +25,7 @@ class Variable: UnaryExpression
     }
     public override void Evaluate()
     {
-        Debug.Log("entro aqui");
         this.Value = AssociatedScope.Get(variable);
-        Debug.Log("se encontro la variable" + variable);
     }
     public override string ToString()
     {

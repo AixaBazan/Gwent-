@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 public class Effect : AST
 {
-    public Expression Name {get;private set;}
+    Expression Name;
     public Token Targets {get; private set;}
     public Token Context {get; private set;}
-    public Stmt Body {get; private set;}
+    Stmt Body;
     public Scope AssociatedScope {get; private set;}
     public Dictionary <string, ExpressionType> EffectParams {get; private set;}
-    private List<(Token,Token)> Params;
+    List<(Token,Token)> Params;
     public Effect(Expression name, Token targets, Token context, Stmt body, List<(Token, Token)> Param, CodeLocation location) : base(location)
     {
         this.Name = name;
@@ -27,7 +27,7 @@ public class Effect : AST
         bool ValidName = Name.CheckSemantic(context, AssociatedScope, errors);
         if(Name.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El nombre del efecto debe ser de tipo Texto"));
+            errors.Add(new CompilingError(Name.Location, ErrorCode.Invalid, "El nombre del efecto debe ser de tipo Texto"));
             return false;
         }
         //Se chequea q no se hayan declarado dos efectos con el mismo nombre
@@ -56,7 +56,7 @@ public class Effect : AST
         //Se annaden al scope las variables que se le pasan al action como parametro
         if(AssociatedScope.GetType(Targets.Value) != ExpressionType.ErrorType || AssociatedScope.GetType(Context.Value) != ExpressionType.ErrorType)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "La variable ya ha sido declarada"));
+            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "La variable pasada al Action del efecto ya ha sido declarada"));
             return false;
         }
         AssociatedScope.DefineType(Targets.Value, ExpressionType.List);

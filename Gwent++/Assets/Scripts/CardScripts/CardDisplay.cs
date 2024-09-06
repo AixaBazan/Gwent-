@@ -27,15 +27,27 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if(card.Owner == 1 && GameManager.Instance.CurrentPlayer == false && card.IsPlayed == false)
+        if(eventData.button == PointerEventData.InputButton.Left)
         {
-            CardManager.Instance.MoveCard(card);
-            GameManager.Instance.ChangePlayerTurn();
+            ContextGame.contextGame.GetPlayer(card.Owner).CanChange = false;
+            if(card.Owner == 1 && GameManager.Instance.CurrentPlayer == false && card.IsPlayed == false)
+            {
+                CardManager.Instance.MoveCard(card);
+                GameManager.Instance.ChangePlayerTurn();
+            }
+            else if(card.Owner == 2 && GameManager.Instance.CurrentPlayer == true && card.IsPlayed == false)
+            {
+                CardManager.Instance.MoveCard(card);
+                GameManager.Instance.ChangePlayerTurn();
+            }
+            else
+            {
+                GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("No es su turno o la carta ya esta en el campo");
+            }
         }
-        else if(card.Owner == 2 && GameManager.Instance.CurrentPlayer == true && card.IsPlayed == false)
+        if(eventData.button == PointerEventData.InputButton.Right)
         {
-            CardManager.Instance.MoveCard(card);
-            GameManager.Instance.ChangePlayerTurn();
+            ContextGame.contextGame.ChangeCard(ContextGame.contextGame.GetPlayer(card.Owner), card);
         }
     }
 }

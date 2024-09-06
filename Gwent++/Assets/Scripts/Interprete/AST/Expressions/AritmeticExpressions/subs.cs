@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class Sub : BinaryExpression
 {
     public override ExpressionType Type {get; set;}
-    public override object? Value {get; set;}
+    public override object Value {get; set;}
 
     public Sub(CodeLocation location, Expression left, Expression right) : base(location)
     {

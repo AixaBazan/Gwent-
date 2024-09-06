@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 class Pow : BinaryExpression
 {
-    public override object? Value{get;set;}
+    public override object Value{get;set;}
     public override ExpressionType Type { get; set; }
     public Pow(CodeLocation location, Expression left, Expression right) : base(location)
     {

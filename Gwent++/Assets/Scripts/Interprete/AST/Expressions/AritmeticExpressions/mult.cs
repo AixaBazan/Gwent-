@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class Mult : BinaryExpression
 {
     public override ExpressionType Type {get; set;}
-    public override object? Value {get; set;}
+    public override object Value {get; set;}
 
     public Mult(CodeLocation location, Expression left, Expression right) : base(location)
     {

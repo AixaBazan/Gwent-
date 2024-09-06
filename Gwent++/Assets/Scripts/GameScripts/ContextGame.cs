@@ -194,7 +194,20 @@ public class ContextGame : MonoBehaviour
         player.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Add(card);
         player.GetComponent<Player>().Deck.Remove(card);
     }  
-
+    //Cambiar carta
+    public void ChangeCard(Player player, Card card)
+    {
+        if(player.CanChange)
+        {
+            player.HandZone.GetComponent<Zone>().Cards.Remove(card);
+            player.Cementery.Add(card);
+            Stole(player);
+            player.ChangedCards ++;
+            if(player.ChangedCards >= 2) player.CanChange = false;
+            player.HandZone.GetComponent<Zone>().UpdateZone();
+        }
+        else GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("Ya no puede cambiar cartas");
+    }
     public void UpdateFront()
     {
         double CounterFairies = 0;

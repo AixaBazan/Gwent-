@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 class Var : Stmt
 {
-    public Expression Name { get; private set;}
-    public Expression InitialValue { get; private set;}
-    public Token Operator { get; private set;}
+    Expression Name;
+    Expression InitialValue;
+    Token Operator;
     public override Scope AssociatedScope {get; set;}
     public Var(Expression name, Expression initializer, Token op, CodeLocation location) : base(location)
     {
@@ -17,7 +17,6 @@ class Var : Stmt
     {
         this.AssociatedScope = scope;
 
-        //Name.CheckSemantic(context, AssociatedScope, errors);
         InitialValue.CheckSemantic(context, AssociatedScope, errors);
         if(Name is Variable)
         {
@@ -30,12 +29,12 @@ class Var : Stmt
             {
                 if(AssociatedScope.GetType(Name.ToString()) != ExpressionType.Number)
                 {
-                    errors.Add(new CompilingError(Location, ErrorCode.Invalid, "No se pueden incrementar o decrementar el valor de una variable que no sea tipo Number o que no exista"));
+                    errors.Add(new CompilingError(Name.Location, ErrorCode.Invalid, "No se pueden incrementar o decrementar el valor de una variable que no sea tipo Number o que no exista"));
                     return false;
                 }
                 if(InitialValue.Type != ExpressionType.Number)
                 {
-                    errors.Add(new CompilingError(Location, ErrorCode.Invalid, "No se pueden incrementar o decrementar el valor de una variable en una expresion q no sea de tipo Number"));
+                    errors.Add(new CompilingError(Name.Location, ErrorCode.Invalid, "No se pueden incrementar o decrementar el valor de una variable en una expresion q no sea de tipo Number"));
                     return false;
                 }
                 else return true;
@@ -46,12 +45,12 @@ class Var : Stmt
             Name.CheckSemantic(context, AssociatedScope, errors);
             if(Name.Type != ExpressionType.Number)
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Solo se permite modificar la propiedad Power de la carta"));
+                errors.Add(new CompilingError(Name.Location, ErrorCode.Invalid, "Solo se permite modificar la propiedad Power de la carta"));
                 return false;
             }
             if(InitialValue.Type != ExpressionType.Number)
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "No se pueden incrementar o decrementar el valor de una variable en una expresion q no sea de tipo Number"));
+                errors.Add(new CompilingError(InitialValue.Location, ErrorCode.Invalid, "No se pueden incrementar o decrementar el valor de una variable en una expresion q no sea de tipo Number"));
                 return false;
             }
             return true; 

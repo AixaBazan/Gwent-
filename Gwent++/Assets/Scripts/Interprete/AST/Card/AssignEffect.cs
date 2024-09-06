@@ -24,7 +24,7 @@ public class AssignEffect : Stmt
         Name.CheckSemantic(context, AssociatedScope, errors);
         if(Name.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El nombre del efecto debe ser de tipo Texto"));
+            errors.Add(new CompilingError(Name.Location, ErrorCode.Invalid, "El nombre del efecto debe ser de tipo Texto"));
             return false;
         }
         //Se verifica que se haya declarado el efecto antes
@@ -126,7 +126,7 @@ public class AssignEffect : Stmt
 
 public class PostAction : Stmt
 {
-    public AssignEffect Effect;
+    public AssignEffect Effect {get; private set;}
     public PostAction(AssignEffect PostActionEffect, CodeLocation location) : base(location)
     {
         this.Effect = PostActionEffect;
@@ -139,7 +139,7 @@ public class PostAction : Stmt
         Effect.Name.CheckSemantic(context, AssociatedScope, errors);
         if(Effect.Name.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El nombre del efecto del PostAction debe ser de tipo Texto"));
+            errors.Add(new CompilingError(Effect.Name.Location, ErrorCode.Invalid, "El nombre del efecto del PostAction debe ser de tipo Texto"));
             return false;
         }
         //Se verifica que se haya declarado el efecto antes

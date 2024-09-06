@@ -5,7 +5,8 @@ using System.Linq;
 public enum ParticularEffect
 {
     None, UserEffect, MultiplyAttack, Increase, Weather, CleanWeather, Decoy,
-    DrawCard, FairiesLeaderEffect, DemonsLeaderEffect, DeleteRowWithFewerCards
+    DrawCard, FairiesLeaderEffect, DemonsLeaderEffect, DeleteRowWithFewerCards,
+    DeleteCardWithMorePower, DeletCardWithFewerPower, Average, PutWeatherCard, PutIncreaseCard
 }
 public class Effects : MonoBehaviour 
 {
@@ -103,8 +104,59 @@ public class Effects : MonoBehaviour
             List<Card> list = enemy.Field.OrderBy(c => c.GetComponent<Zone>().Cards.Count()).FirstOrDefault().GetComponent<Zone>().Cards;
             ContextGame.contextGame.CleanZone(list, enemy);
         }
+        else if(card.effect == ParticularEffect.DeleteCardWithMorePower)
+        {
+            if(enemy.GetField().Count > 0)
+            {
+                Card cardToRemove = player.GetField().OrderByDescending(c => c.Power).FirstOrDefault();
+                ContextGame.contextGame.RemoveGame(cardToRemove, player.GetField());
+            }
+        }
+        else if(card.effect == ParticularEffect.DeletCardWithFewerPower)
+        {
+            if(enemy.GetField().Count > 0)
+            {
+                Card cardToRemove = player.GetField().OrderBy(c => c.Power).FirstOrDefault();
+                ContextGame.contextGame.RemoveGame(cardToRemove, player.GetField());
+            }
+        }
+        else if(card.effect == ParticularEffect.Average)
+        {
+            List<Card> list = player.GetField();
+            if(list.Count > 0)
+            {
+                double average = list.Average(c => c.Power);
+                foreach(var item in list)
+                {
+                    item.Power = average;
+                }
+            }
+        }
+        else if(card.effect == ParticularEffect.PutWeatherCard)
+        {
+            Card item = FindSpecialCard(player.Deck, CardType.Clima);
+            if(item != null) CardManager.Instance.MoveCard(item);
+        }
+        else if(card.effect == ParticularEffect.PutIncreaseCard)
+        {
+            Card item = FindSpecialCard(player.Deck, CardType.Aumento);
+            if(item != null) CardManager.Instance.MoveCard(item);
+        }
     }
     #region Card Effects
+    private Card FindSpecialCard(List<Card> list, CardType type)
+    {
+        Card card = null;
+        foreach(var item in list)
+        {
+            if(item.Type == type)
+            {
+                card = item;
+                break;
+            }
+        }
+        return card;
+    }
     private void MultiplyPower(Player player, Card card)
     {
         List<Card> field = player.GetField();

@@ -84,7 +84,7 @@ class Parser
             else if(Stream.Match(TokenValue.type)) Type = AssignProperty(Type is null, "Type");
             else if(Stream.Match(TokenValue.faction)) Faction = AssignProperty(Faction is null, "Faction");
             else if(Stream.Match(TokenValue.power)) Power = AssignProperty(Power is null, "Power");
-            else if(Stream.Match(TokenValue.range)) Range = AssignRange(Range is null); // revisar esto
+            else if(Stream.Match(TokenValue.range)) Range = AssignRange(Range is null);
 
             //OnActivation
             else if(Stream.Match((TokenValue.onActivation))) 
@@ -96,7 +96,7 @@ class Parser
                 {
                     onActivation.Add(assignEffect(Stream.Previous().Location));
                     if(!Stream.Comma(TokenValue.ClosedSquareBracket)) 
-                        throw new CompilingError(Stream.Previous().Location, ErrorCode.Invalid, "Se espera una , entre la declaracion de cada efecto");
+                        throw new CompilingError(Stream.Peek().Location, ErrorCode.Invalid, "Se espera una , entre la declaracion de cada efecto");
                 }
                 Stream.Consume(TokenValue.ClosedSquareBracket, "Se esperaba ]");
             }
@@ -113,7 +113,6 @@ class Parser
         if(Faction is null) throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "No se declaro la faccion de la carta");
         if(Power is null) throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "No se declaro el poder de la carta");
         if(Range is null) throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "No se declaro el range de la carta");
-        //Revisar para no asignar efectos dejarlo vacio si se puede
         if(onActivation.Count == 0 ) throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "No se le asignaron efectos a la carta");
         
         return new CardComp(Name, Type, Faction, Power, Range, onActivation, location);
@@ -148,15 +147,16 @@ class Parser
             //revisar
             else if (Stream.Match(TokenValue.postAction))
             {
+                CodeLocation PostActionLoc = Stream.Previous().Location;
                 Stream.Consume(TokenValue.colon, "Se esperaban : despues de PostAction");
                 Stream.Consume(TokenValue.OpenCurlyBracket, "Se esperaba { para iniciar la declaracion del PostAction");
-                postAction = new PostAction(assignEffect(Stream.Previous().Location), Stream.Previous().Location);
+                postAction = new PostAction(assignEffect(Stream.Previous().Location), PostActionLoc);
             } 
             else throw new CompilingError(Stream.Peek().Location, ErrorCode.Invalid, "Asignacion de efecto invalida");
 
             if(!Stream.Comma())
             {
-                throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba ,");
+                throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , entre las declaraciones de los campos del efecto asignado a la carta");
             }
 
             }catch(CompilingError error)
@@ -223,7 +223,7 @@ class Parser
         List<Expression> range = new List<Expression>();
         if(!IsNotDefinided)
         {
-            throw new CompilingError(Stream.Peek().Location, ErrorCode.None, "Ya se definio la propiedad Range de la carta");
+            throw new CompilingError(Stream.Previous().Location, ErrorCode.None, "Ya se definio la propiedad Range de la carta");
         }
         Stream.Consume(TokenValue.colon, "Se esperaba :");
         Stream.Consume(TokenValue.OpenSquareBracket, "Se esperaba [");
@@ -244,7 +244,7 @@ class Parser
         }
         if(!Stream.Comma())
         {
-            throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba , ");
+            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
         }
         else return range;
     }
@@ -252,7 +252,7 @@ class Parser
     {
         if(!IsNotDefinided)
         {
-            throw new CompilingError(Stream.Peek().Location, ErrorCode.None, "Ya se definio la propiedad " + name);
+            throw new CompilingError(Stream.Previous().Location, ErrorCode.None, "Ya se definio la propiedad " + name);
         }
         Expression exp;
         if(Stream.Match(TokenValue.colon))
@@ -262,7 +262,7 @@ class Parser
         else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba : para definir la propiedad " + name + " de la carta");
         if(!Stream.Comma())
         {
-            throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba , ");
+            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
         }
         return exp;
     }
@@ -296,14 +296,14 @@ class Parser
                 do
                 {
                     Params.Add(AddParam());
-                    if(!Stream.Comma()) throw new CompilingError(Stream.Previous().Location, ErrorCode.Invalid, "Se espera una , entre la declaracion de cada parametro");
+                    if(!Stream.Comma()) throw new CompilingError(Stream.Peek().Location, ErrorCode.Invalid, "Se espera una , entre la declaracion de cada parametro");
 
                 }while(Stream.Peek().Type == TokenType.Identifier);
                 Stream.Consume(TokenValue.ClosedCurlyBracket, "Se esperaba } ");
 
                 if(!Stream.Comma())
                 {
-                    throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba , ");
+                    throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
                 }
             }
 
@@ -317,13 +317,13 @@ class Parser
                 {
                     targets = Stream.Previous();
                 }
-                else throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba un identificador");
+                else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba un identificador para asignar las cartas del Action");
                 Stream.Consume(TokenValue.comma, "Se esperaba ,");
                 if (Stream.Match(TokenType.Identifier))
                 {
                     context = Stream.Previous();
                 }
-                else throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba un identificador");
+                else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba un identificador para asignar el contexto del Action");
                 Stream.Consume(TokenValue.ClosedBracket, "Se esperaba )");
                 Stream.Consume(TokenValue.lambda, "Se esperaba =>");
                 if(Stream.Match(TokenValue.OpenCurlyBracket)) 
@@ -332,11 +332,11 @@ class Parser
                 }
                 else body = SingleStmt();
 
-                if(body is null) throw new CompilingError(Stream.Previous().Location, ErrorCode.Invalid, "Declaracion invalida del Action del efecto");
+                if(body is null) throw new CompilingError(body.Location, ErrorCode.Invalid, "Declaracion invalida del Action del efecto");
 
                 if(!Stream.Comma())
                 {
-                    throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se esperaba , ");
+                    throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
                 }
             }
             else 
@@ -381,7 +381,6 @@ class Parser
             try
             {
                 if (Stream.Peek().Type == TokenType.End)  throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba }");
-                //else if (Stream.Match(TokenValue.OpenCurlyBracket)) return new Block(Block());
                 else if (Stream.Match(TokenValue.WhileCicle)) statements.Add(While());
                 else if (Stream.Match(TokenValue.ForCicle)) statements.Add(For());
                 else statements.Add(SingleStmt());
@@ -402,14 +401,14 @@ class Parser
         {
             id = Stream.Previous().Value;
         }
-        else throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se espera un identificador despues de for");
+        else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se espera un identificador despues de for");
         Stream.Consume(TokenValue.In, "Se esperaba la palabra reservada in");
         string collection = null;
         if(Stream.Match(TokenType.Identifier))
         {
             collection = Stream.Previous().Value;
         }
-        else throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Se espera un identificador despues de in");
+        else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se espera un identificador despues de in");
         Stmt body = null;
         if(Stream.Match(TokenValue.OpenCurlyBracket))
         {
@@ -447,7 +446,7 @@ class Parser
             Stream.MoveNext(-1);
             CodeLocation loc = Stream.Peek().Location;
             Expression exp = expression();
-            stmt = new ExpressionStmt(exp, Stream.Previous().Location);
+            stmt = new ExpressionStmt(exp, exp.Location);
             if(Stream.Match(TokenValue.Assign, TokenValue.Increase, TokenValue.Decrease))
             {
                 stmt = VarDeclaration(exp, loc);
@@ -456,7 +455,7 @@ class Parser
         else throw new CompilingError(Stream.Peek().Location, ErrorCode.Invalid, "Statement vacio o expresion invalida");
         if (!Stream.Match(TokenValue.semicolon))
         {
-            throw new CompilingError(Stream.Previous().Location, ErrorCode.Expected, "Declaracion incompleta, se esperaba ;");
+            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Declaracion incompleta, se esperaba ;");
         }
         return stmt;
     }
@@ -482,7 +481,7 @@ class Parser
         while (Stream.Match(TokenValue.or)) 
         {
         Expression right = And();
-        expr = new Or(Stream.Peek().Location, expr, right);
+        expr = new Or(Stream.Previous().Location, expr, right);
         }
         return expr;
     }
@@ -492,7 +491,7 @@ class Parser
         while (Stream.Match(TokenValue.and)) 
         {
         Expression right = Equality();
-        expr = new And(Stream.Peek().Location, expr, right);
+        expr = new And(Stream.Previous().Location, expr, right);
         }
         return expr;
     }
@@ -628,7 +627,7 @@ class Parser
             Expression exp = new Variable(variable.Value, Stream.Previous().Location);
 
             // Procesar indexados, propiedades y métodos
-            exp = ProcessMemberAccess(exp, VarLoc);
+            exp = ProcessMemberAccess(exp);
 
             //Procesar q se le hizo ++ o --
             if(Stream.Match(TokenValue.addOne, TokenValue.substractOne))
@@ -656,7 +655,7 @@ class Parser
         return new Lambda((Variable)var, Condition, var.Location);
     }
 
-    private Expression ProcessMemberAccess(Expression exp, CodeLocation varLoc)
+    private Expression ProcessMemberAccess(Expression exp)
     {
         while (true)
         {
@@ -664,7 +663,7 @@ class Parser
             {
                 if (Stream.Match(TokenType.Number))
                 {
-                    exp = new Indexer(exp, double.Parse(Stream.Previous().Value), varLoc);
+                    exp = new Indexer(exp, double.Parse(Stream.Previous().Value), Stream.Previous().Location);
                 }
                 else
                 {
@@ -690,16 +689,16 @@ class Parser
                     {
                         Expression param = expression(); 
                         Stream.Consume(TokenValue.ClosedBracket, "Se esperaba )");
-                        exp = new MethodWithParams(exp, caller.Value, param, varLoc);
+                        exp = new MethodWithParams(exp, caller.Value, param, caller.Location);
                     }
                     else
                     {
-                        exp = new Method(exp, caller.Value, varLoc);
+                        exp = new Method(exp, caller.Value, caller.Location);
                     }
                 }
                 else
                 {
-                    exp = new Property(exp, caller.Value, varLoc);
+                    exp = new Property(exp, caller.Value, caller.Location);
                 }
             }
             else

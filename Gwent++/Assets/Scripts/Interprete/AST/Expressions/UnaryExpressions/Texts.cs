@@ -6,7 +6,7 @@ class Text : UnaryExpression
     {
         Value = value;
     }
-    public override object? Value {get;set;}
+    public override object Value {get;set;}
     public override ExpressionType Type 
     {
         get

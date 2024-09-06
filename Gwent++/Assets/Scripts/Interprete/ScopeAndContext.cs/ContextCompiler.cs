@@ -40,7 +40,7 @@ public class Context
     };
     public Dictionary<string, ExpressionType> ValidEffectParams  = new Dictionary<string, ExpressionType>
     {
-        {"Number", ExpressionType.Number}, //tambien quita la carta de la lista
+        {"Number", ExpressionType.Number},
         {"String", ExpressionType.Text}, {"Bool", ExpressionType.Boolean}
     };
     public string[] ValidType = new string[]{"Oro", "Plata", "Aumento", "Clima", "Lider"};

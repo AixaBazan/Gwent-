@@ -12,7 +12,7 @@ public class Grouping : Expression
         expression.Evaluate();
         this.Value = expression.Value;
     }
-    public override object? Value{get; set;}
+    public override object Value{get; set;}
     public override ExpressionType Type{get;set;}
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {

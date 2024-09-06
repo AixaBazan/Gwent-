@@ -7,19 +7,11 @@ sealed class Number : UnaryExpression
     {
         Value = value;
     }
-    public override object? Value{get; set;}
+    public override object Value{get; set;}
     public override ExpressionType Type
     {
         get { return ExpressionType.Number; }
         set{}
-    }
-    public bool IsNumber
-    {
-        get
-        {
-            int n;
-            return int.TryParse(Value.ToString(), out n);
-        }
     }
     public override bool CheckSemantic(Context context, Scope table, List<CompilingError> errors)
     {

@@ -7,11 +7,11 @@ class ModificOne : Expression
         this.variable = variable;
         this.Operator = op;
     }
-    public override object? Value{get; set;}
-    public string variable { get; set;}
-    public Token Operator { get; private set;}
+    public override object Value{get; set;}
+    string variable;
+    Token Operator;
     public override ExpressionType Type{get;set;}
-    Scope AssociatedScope {get; set;}
+    Scope AssociatedScope;
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
         this.AssociatedScope = scope;

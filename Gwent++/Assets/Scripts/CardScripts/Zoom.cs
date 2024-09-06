@@ -26,9 +26,9 @@ public class Zoom : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        Transform child = UbZoom.transform.GetChild(0);
-        if(child != null)
+        if (UbZoom.transform.childCount > 0)
         {
+            Transform child = UbZoom.transform.GetChild(0);
             Destroy(child.gameObject);
         }
     }

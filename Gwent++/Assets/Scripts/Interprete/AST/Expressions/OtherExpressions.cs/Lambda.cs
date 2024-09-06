@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 class Lambda : Expression
 {
-    public  Variable Var {get; private set;}
-    public Expression Condition {get; private set;}
+    public Variable Var {get; private set;}
+    Expression Condition;
     public Lambda(Variable variable, Expression condition, CodeLocation location) : base(location)
     {
         this.Var = variable;
         this.Condition = condition;
     }
-    public override object? Value{get; set;}
+    public override object Value{get; set;}
     public override ExpressionType Type {get; set;}
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
         //Se chequea si ya esta en uso la variable 
         if(scope.GetType(Var.variable) != ExpressionType.ErrorType)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "La variable " + Var.variable + " ya ha sido declarada, no se puede usar como parametro de la expresion lambda"));
+            errors.Add(new CompilingError(Var.Location, ErrorCode.Invalid, "La variable " + Var.variable + " ya ha sido declarada, no se puede usar como parametro de la expresion lambda"));
             this.Type = ExpressionType.ErrorType;
             return false;
         }
@@ -27,7 +27,7 @@ class Lambda : Expression
         bool validCond = Condition.CheckSemantic(context, scope, errors);
         if(Condition.Type != ExpressionType.Boolean)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "La condicion de la expresion lambda debe devolver un booleano"));
+            errors.Add(new CompilingError(Condition.Location, ErrorCode.Invalid, "La condicion de la expresion lambda debe devolver un booleano"));
             this.Type = ExpressionType.ErrorType;
             return false;
         }
@@ -36,8 +36,8 @@ class Lambda : Expression
     }
     public override void Evaluate()
     {
-        Condition.Evaluate(); //se evalua la condicion
-        this.Value = Condition.Value; //el valor es el resultado d evaluar la condicion
+        Condition.Evaluate();
+        this.Value = Condition.Value; 
     }
     public override string ToString()
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 class ConcatWithoutSpace : BinaryExpression //@
 {
     public override ExpressionType Type{get;set;}
-    public override object? Value{get;set;}
+    public override object Value{get;set;}
     public ConcatWithoutSpace(CodeLocation location, Expression left, Expression right) : base(location)
     {
         this.Left = left;

@@ -6,18 +6,11 @@ class Bool: UnaryExpression
     {
         Value = value;
     }
-    public override object? Value{get; set;}
+    public override object Value{get; set;}
     public override ExpressionType Type
     {
         get { return ExpressionType.Boolean; }
         set{}
-    }
-    public bool IsBool
-    {
-        get
-        {
-            return Value is bool;
-        }
     }
     public override bool CheckSemantic(Context context, Scope table, List<CompilingError> errors)
     {

@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
         RoundsWon = 0;
         Points = 0;
         Rounds.text = RoundsWon.ToString();
+        ChangedCards = 0;
+        CanChange = true;
     }
     public bool PlayerPassed;
     public CardFaction Faction;
@@ -44,6 +46,8 @@ public class Player : MonoBehaviour
     }
     public GameObject LeaderZone;
     public Card Leader;
+    public int ChangedCards;
+    public bool CanChange;
     public int UpdateRounds()
     {
         Rounds.text = RoundsWon.ToString();

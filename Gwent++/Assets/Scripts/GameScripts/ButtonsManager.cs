@@ -27,4 +27,8 @@ public class ButtonsManager : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+    public void CardBuilder()
+    {
+        SceneManager.LoadScene("CardBuilder");
+    }
 }

@@ -7,13 +7,13 @@ using UnityEditor;
 
 public class CardComp : AST
 {
-    public Expression Name{get;private set;}
-    public Expression Power{get;private set;}
-    public Expression Faction{get;private set;}
-    public List<Expression> Range{get;private set;}
-    public Expression Type{get;private set;}
-    public List<AssignEffect> OnActivation {get; private set;}
-    public Scope AssociatedScope { get; set;}
+    Expression Name;
+    Expression Power;
+    Expression Faction;
+    List<Expression> Range;
+    Expression Type;
+    List<AssignEffect> OnActivation;
+    Scope AssociatedScope;
     List<string> range {get; set;}
     public CardComp(Expression name, Expression type, Expression faction, Expression power, List<Expression> range, List<AssignEffect> activation, CodeLocation location):base(location)
     {
@@ -36,7 +36,7 @@ public class CardComp : AST
         Power.CheckSemantic(context, AssociatedScope, errors);
         if (Power.Type != ExpressionType.Number)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El poder de la carta debe ser una expresion de tipo numero"));
+            errors.Add(new CompilingError(Power.Location, ErrorCode.Invalid, "El poder de la carta debe ser una expresion de tipo numero"));
             return false;
         }
 
@@ -44,14 +44,14 @@ public class CardComp : AST
         Type.CheckSemantic(context, AssociatedScope, errors);
         if(Type.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El tipo de la carta debe ser una expresion de tipo texto"));
+            errors.Add(new CompilingError(Type.Location, ErrorCode.Invalid, "El tipo de la carta debe ser una expresion de tipo texto"));
             return false;
         }
         //Chequear q pusieran un tipo valido
         Type.Evaluate();
         if(!context.ValidType.Contains((string)Type.Value))
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Tipo de carta invalido, se espera Oro, Plata, Aumento, Clima o Lider"));
+            errors.Add(new CompilingError(Type.Location, ErrorCode.Invalid, "Tipo de carta invalido, se espera Oro, Plata, Aumento, Clima o Lider"));
             return false;
         }
 
@@ -59,7 +59,7 @@ public class CardComp : AST
         Name.CheckSemantic(context, AssociatedScope, errors);
         if(Name.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El nombre de la carta debe ser una expresion de tipo texto"));
+            errors.Add(new CompilingError(Name.Location, ErrorCode.Invalid, "El nombre de la carta debe ser una expresion de tipo texto"));
             return false;
         }
 
@@ -67,14 +67,14 @@ public class CardComp : AST
         Faction.CheckSemantic(context, AssociatedScope, errors);
         if(Faction.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "La faccion de la carta debe ser una expresion de tipo texto"));
+            errors.Add(new CompilingError(Faction.Location, ErrorCode.Invalid, "La faccion de la carta debe ser una expresion de tipo texto"));
             return false;
         } 
         //Chequear q pusieran una faccion valida
         Faction.Evaluate();
         if(((string)Faction.Value != "Fairies") && ((string)Faction.Value != "Demons"))
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Las facciones para las cartas disponibles son: Fairies y Demons"));
+            errors.Add(new CompilingError(Faction.Location, ErrorCode.Invalid, "Las facciones para las cartas disponibles son: Fairies y Demons"));
             return false;
         }
 
@@ -84,13 +84,13 @@ public class CardComp : AST
             item.CheckSemantic(context, AssociatedScope, errors);
             if(item.Type != ExpressionType.Text)
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Se esperaba una expresion de texto en el Range de la carta"));
+                errors.Add(new CompilingError(item.Location, ErrorCode.Invalid, "Se esperaba una expresion de texto en el Range de la carta"));
                 return false;
             }
             item.Evaluate();
             if(!context.ValidRange.Contains((string)item.Value))
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Range invalido, se espera: Melee, Ranged o Siege"));
+                errors.Add(new CompilingError(item.Location, ErrorCode.Invalid, "Range invalido, se espera: Melee, Ranged o Siege"));
                 return false;
             }
             range.Add((string)item.Value);

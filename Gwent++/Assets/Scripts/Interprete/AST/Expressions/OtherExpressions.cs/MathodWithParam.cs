@@ -9,10 +9,10 @@ class MethodWithParams : Expression
         this.method = method;
         this.param = param;
     }
-    public Expression expression{ get; set;}
+    Expression expression;
     string method;
     public Expression param {get; set;}
-    public override object? Value {get;set;}
+    public override object Value {get;set;}
     public override ExpressionType Type {get; set;}
     Scope AssociatedScope;
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
@@ -20,7 +20,6 @@ class MethodWithParams : Expression
         this.AssociatedScope = scope;
         expression.CheckSemantic(context, scope, errors);
         param.CheckSemantic(context, scope, errors);
-        System.Console.WriteLine(param + " " + param.Type);
         
         if(expression.Type == ExpressionType.List)
         {
@@ -33,7 +32,7 @@ class MethodWithParams : Expression
                 {
                     if(param.Type != ExpressionType.LambdaExpression)
                     {
-                        errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El metodo find de las listas debe recibir como parametro una expresion predicate"));
+                        errors.Add(new CompilingError(param.Location, ErrorCode.Invalid, "El metodo find de las listas debe recibir como parametro una expresion predicate"));
                         Type = ExpressionType.ErrorType;
                         return false;
                     }
@@ -42,7 +41,7 @@ class MethodWithParams : Expression
                 {
                     if(param.Type != ExpressionType.Card)
                     {
-                        errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Las listas reciben como parametro un objeto de tipo carta"));
+                        errors.Add(new CompilingError(param.Location, ErrorCode.Invalid, "Se espera recibid como parametro del metodo " + method + " un objeto de tipo carta"));
                         Type = ExpressionType.ErrorType;
                         return false;
                     }
@@ -66,7 +65,7 @@ class MethodWithParams : Expression
                 //chequear el tipo del parametro
                 if(param.Type != ExpressionType.PlayerId)
                 {
-                    errors.Add(new CompilingError(Location, ErrorCode.Invalid, "Los parametros que reciben los metodos del context deben referirse a un jugador"));
+                    errors.Add(new CompilingError(param.Location, ErrorCode.Invalid, "Los parametros que reciben los metodos del context deben referirse a un jugador"));
                     Type = ExpressionType.ErrorType;
                     return false;
                 }

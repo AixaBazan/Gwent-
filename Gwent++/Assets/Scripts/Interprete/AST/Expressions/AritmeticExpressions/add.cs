@@ -3,18 +3,11 @@ using System.Collections.Generic;
 public class Add : BinaryExpression
 {
     public override ExpressionType Type {get; set;}
-    public override object? Value {get; set;}
+    public override object Value {get; set;}
     public Add(CodeLocation location, Expression left, Expression right) : base(location)
     {
         this.Right = right;
         this.Left = left;
-    }
-    public override void Evaluate()
-    {
-        Right.Evaluate();
-        Left.Evaluate();
-        
-        Value = (double)Right.Value + (double)Left.Value;
     }
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
@@ -29,6 +22,13 @@ public class Add : BinaryExpression
 
         Type = ExpressionType.Number;
         return right && left;
+    }
+    public override void Evaluate()
+    {
+        Right.Evaluate();
+        Left.Evaluate();
+        
+        Value = (double)Right.Value + (double)Left.Value;
     }
     public override string ToString()
     {

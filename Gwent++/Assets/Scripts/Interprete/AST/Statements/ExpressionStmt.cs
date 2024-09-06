@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 class ExpressionStmt : Stmt
 {
-    public Expression expression {get; private set;}
+    Expression expression;
     public ExpressionStmt(Expression exp, CodeLocation location) : base(location)
     {
         this.expression = exp;

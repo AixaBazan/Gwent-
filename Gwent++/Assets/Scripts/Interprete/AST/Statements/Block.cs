@@ -16,7 +16,7 @@ public class Block : Stmt
         foreach(Stmt item in Statements)
         {
             bool valid = item.CheckSemantic(context, AssociatedScope , errors);
-            if( valid == false)
+            if(valid == false)
             {
                 return false;
             }

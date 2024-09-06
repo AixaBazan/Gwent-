@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
+    public GameObject cartelManager;
     public static GameManager Instance;
     void Awake()
     {
@@ -108,17 +109,17 @@ public class GameManager : MonoBehaviour
         //Se define quien gano
         if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points > ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
-            Debug.Log("El jugador 1 gano la ronda");
+            cartelManager.GetComponent<CartelManager>().MostrarCartel("El jugador Fairies gano la ronda");
             ContextGame.contextGame.playerFairies.GetComponent<Player>().RoundsWon ++ ;
         }
         else if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points < ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
-            Debug.Log("El jugador 2 gano la ronda");
+            cartelManager.GetComponent<CartelManager>().MostrarCartel("El jugador Demons gano la ronda");
             ContextGame.contextGame.playerDemons.GetComponent<Player>().RoundsWon ++ ;
         }
         else if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points == ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
-            Debug.Log("Empate!");
+            cartelManager.GetComponent<CartelManager>().MostrarCartel("Empate");
             ContextGame.contextGame.playerFairies.GetComponent<Player>().RoundsWon ++ ;
             ContextGame.contextGame.playerDemons.GetComponent<Player>().RoundsWon ++ ;
         }
@@ -152,7 +153,6 @@ public class GameManager : MonoBehaviour
     }
     private void NewRound(int FairiesWinnedRounds, int DemonsWinnedRounds)
     {
-        Debug.Log("Se inicio una nueva ronda");
         //Ambos jugadores roban dos cartas
         StoleTwoCards(ContextGame.contextGame.playerFairies.GetComponent<Player>());
         StoleTwoCards(ContextGame.contextGame.playerDemons.GetComponent<Player>());

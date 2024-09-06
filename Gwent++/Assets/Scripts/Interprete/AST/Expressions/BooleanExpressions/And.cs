@@ -3,7 +3,7 @@ using System.Collections.Generic;
 class And : BinaryExpression
 {
     public override ExpressionType Type{get;set;}
-    public override object? Value{get;set;}
+    public override object Value{get;set;}
     public And(CodeLocation location, Expression left, Expression right) : base(location)
     {
         this.Right = right;

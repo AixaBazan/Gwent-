@@ -11,18 +11,17 @@ public class GwentProgram : Stmt
         Effects = new List<Effect>();
         Cards = new List<CardComp>();
     }
-    
-    /* To check a program semantic we sould first collect all the existing elements and store them in the context.
-    Then, we check semantics of elements and cards */
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
         this.AssociatedScope = scope;
+        //Se chequean semanticamente los efectos
         bool checkEffects = true;
         foreach (Effect effect in Effects)
         {
             checkEffects = checkEffects && effect.CheckSemantic(context, AssociatedScope, errors);
         }
 
+        //Se chequean semanticamente las cartas
         bool checkCards = true;
         foreach (CardComp card in Cards)
         {
@@ -31,16 +30,13 @@ public class GwentProgram : Stmt
 
         return checkCards && checkEffects;
     }
-
     public override void Interprete()
     {
-        Debug.Log("entro a interpretar el program");
         foreach (CardComp card in Cards)
         {
             card.CardBuilder();
         }
     }
-
     public override string ToString()
     {
         string s = "";

@@ -8,9 +8,9 @@ public class Indexer : Expression
         this.expression = exp;
         this.Index = index;
     }
-    public Expression expression{ get; set; }
-    public double Index { get; set; }
-    public override object? Value {get;set;}
+    Expression expression;
+    double Index;
+    public override object Value {get;set;}
     public override ExpressionType Type {get; set;}
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
@@ -22,6 +22,12 @@ public class Indexer : Expression
             return false;
         }
         //verificar q index sea un numero entero
+        if(Index != (int)Index)
+        {
+            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El index debe ser un numero entero"));
+            Type = ExpressionType.ErrorType;
+            return false;
+        }
         Type = ExpressionType.Card;
         return true;
     }

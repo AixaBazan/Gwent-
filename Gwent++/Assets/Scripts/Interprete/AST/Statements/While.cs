@@ -4,8 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 public class While : Stmt
 {
-    public Expression Condition { get; }
-    public Stmt Body { get; }
+    Expression Condition;
+    Stmt Body;
     public override Scope AssociatedScope {get;set;}
     public While(Expression condition, Stmt body, CodeLocation location):base(location)
     {
@@ -20,7 +20,7 @@ public class While : Stmt
         
         if(Condition.Type != ExpressionType.Boolean)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El while debe recibir una expresion booleana"));
+            errors.Add(new CompilingError(Condition.Location, ErrorCode.Invalid, "El while debe recibir una expresion booleana"));
             return false;
         }
         bool body = cond && Body.CheckSemantic(context, AssociatedScope, errors);

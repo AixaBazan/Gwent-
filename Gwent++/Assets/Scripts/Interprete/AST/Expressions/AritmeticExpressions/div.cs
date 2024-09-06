@@ -3,7 +3,7 @@ using System.Collections.Generic;
 public class Div : BinaryExpression
 {
     public override ExpressionType Type {get; set;}
-    public override object? Value {get; set;}
+    public override object Value {get; set;}
     public Div(CodeLocation location, Expression left, Expression right) : base(location)
     {
         this.Right = right;

@@ -14,7 +14,7 @@ public class ValuePair
 }
 public class Scope 
 {
-    public ValuePair EffectAndPostAction;
+    public ValuePair EffectAndPostAction; //Lo utilizo para acceder al efecto padre del postAction
     private Dictionary<string, object> values = new Dictionary<string, object>(); //diccionario nombre de la variable - valor
     private Dictionary<string, ExpressionType> types = new Dictionary<string, ExpressionType>(); // diccionario nombre de la variable - tipo
     public Scope? Parent {get; private set;}

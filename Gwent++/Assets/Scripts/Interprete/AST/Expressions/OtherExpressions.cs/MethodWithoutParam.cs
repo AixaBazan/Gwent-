@@ -8,9 +8,9 @@ class Method : Expression
         this.expression = exp;
         this.method = method;
     }
-    public Expression expression{ get; set; }
+    Expression expression;
     public string method { get; set; }
-    public override object? Value {get;set;}
+    public override object Value {get;set;}
     public override ExpressionType Type {get; set;}
     public override bool CheckSemantic(Context context, Scope table, List<CompilingError> errors)
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using UnityEngine;
 public class Selector : Stmt
 {
-    public Expression Source { get; private set;}
-    public Expression Single {get; private set;}
-    public Expression Predicate {get; private set;}
+    Expression Source;
+    Expression Single;
+    Expression Predicate;
     public List<Card> Value {get; private set;}
     public bool IsPostAction {get; set;} //En el selector necesito saber si el efecto q estoy analizando es un PostAction o no
     public Selector(Expression source, Expression single, Expression predicate, CodeLocation location) : base(location)
@@ -26,7 +26,7 @@ public class Selector : Stmt
         bool ValidSource = Source.CheckSemantic(context, AssociatedScope, errors);
         if(Source.Type != ExpressionType.Text)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El Source del Selector debe ser una expresion de tipo texto"));
+            errors.Add(new CompilingError(Source.Location, ErrorCode.Invalid, "El Source del Selector debe ser una expresion de tipo texto"));
             return false;
         }
         Source.Evaluate();
@@ -35,7 +35,7 @@ public class Selector : Stmt
         {
             if(!context.ValidSource.Contains(Source.Value))
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El Source del efecto declarado es invalido"));
+                errors.Add(new CompilingError(Source.Location, ErrorCode.Invalid, "El Source del efecto declarado es invalido"));
                 return false;
             }
         }
@@ -43,7 +43,7 @@ public class Selector : Stmt
         {
             if((string)Source.Value != "parent" && !context.ValidSource.Contains(Source.Value))
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El Source del efecto PostAction declarado es invalido, postAct bool : " + IsPostAction));
+                errors.Add(new CompilingError(Source.Location, ErrorCode.Invalid, "El Source del efecto PostAction declarado es invalido, postAct bool : " + IsPostAction));
                 return false;
             }
         }
@@ -56,10 +56,10 @@ public class Selector : Stmt
         }
         else
         {
-            bool ValidSingle = Single.CheckSemantic(context, AssociatedScope, errors);
+            Single.CheckSemantic(context, AssociatedScope, errors);
             if(Single.Type != ExpressionType.Boolean)
             {
-                errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El Single del Selector debe ser una expresion booleana"));
+                errors.Add(new CompilingError(Single.Location, ErrorCode.Invalid, "El Single del Selector debe ser una expresion booleana"));
                 return false;
             }
         }
@@ -68,7 +68,7 @@ public class Selector : Stmt
         Predicate.CheckSemantic(context, AssociatedScope, errors);
         if(Predicate.Type != ExpressionType.LambdaExpression)
         {
-            errors.Add(new CompilingError(Location, ErrorCode.Invalid, "El Predicate debe recibir una expresion lambda"));
+            errors.Add(new CompilingError(Predicate.Location, ErrorCode.Invalid, "El Predicate debe recibir una expresion lambda"));
             return false;
         }
         return true;
@@ -123,7 +123,6 @@ public class Selector : Stmt
         {
             AssociatedScope.Define(predicate.Var.variable , card);
             Predicate.Evaluate();
-            Debug.Log("valor del predicate " + Predicate.Value);
             if((bool)Predicate.Value)
             {
                 filteredCards.Add(card);
@@ -134,7 +133,7 @@ public class Selector : Stmt
             }
         }
         this.Value = filteredCards;
-        Debug.Log("todo bien al seleccion el selector , cant d cartas : " + filteredCards.Count);
+        Debug.Log("todo bien con el selector, cant d cartas : " + filteredCards.Count);
     }
     public override string ToString()
     {

@@ -8,9 +8,9 @@ public class Property : Expression
         this.expression = exp;
         this.Caller = caller;
     }
-    public Expression expression{ get; set; }
-    public string Caller { get; set; }
-    public override object? Value {get;set;}
+    public Expression expression {get; private set;}
+    string Caller;
+    public override object Value {get;set;}
     public override ExpressionType Type {get; set;}
     public override bool CheckSemantic(Context context, Scope table, List<CompilingError> errors)
     {

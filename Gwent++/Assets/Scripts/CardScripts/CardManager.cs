@@ -39,7 +39,7 @@ public class CardManager : MonoBehaviour
             card.IsPlayed = true;
             if(card.GameZone.Contains(ValidZone.Melee))
             {
-            Zone = owner.MeleeZone;
+                Zone = owner.MeleeZone;
             }
             else if(card.GameZone.Contains(ValidZone.Ranged))
             {

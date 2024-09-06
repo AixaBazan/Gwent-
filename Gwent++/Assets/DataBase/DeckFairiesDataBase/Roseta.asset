@@ -19,7 +19,7 @@ MonoBehaviour:
   OriginalPower: 14
   Faction: 0
   Type: 0
-  IsPlayed: 0
+  IsPlayed: 1
   Range: []
   GameZone: 00000000
-  effect: 6
+  effect: 7
