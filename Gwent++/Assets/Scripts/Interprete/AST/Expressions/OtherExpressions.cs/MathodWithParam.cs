@@ -142,6 +142,7 @@ class MethodWithParams : Expression
                             filteredCards.Add(card);   
                         }
                     }
+                    Debug.Log(filteredCards.Count);
         this.Value = filteredCards;
                     break;
                 default:

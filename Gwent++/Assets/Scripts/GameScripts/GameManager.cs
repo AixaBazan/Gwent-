@@ -104,7 +104,7 @@ public class GameManager : MonoBehaviour
                             || (ContextGame.contextGame.playerFairies.GetComponent<Player>().HandZone.GetComponent<Zone>().Cards.Count == 0 && ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed == true));
     private void EndRound()
     {
-        Debug.Log("Vamos a ver los puntos: Puntos Fairies: " + ContextGame.contextGame.playerFairies.GetComponent<Player>().Points + " Puntos Demons: " + ContextGame.contextGame.playerDemons.GetComponent<Player>().Points);
+        CardFaction winner = CardFaction.Fairies;
 
         //Se define quien gano
         if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points > ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
@@ -114,6 +114,7 @@ public class GameManager : MonoBehaviour
         }
         else if(ContextGame.contextGame.playerFairies.GetComponent<Player>().Points < ContextGame.contextGame.playerDemons.GetComponent<Player>().Points)
         {
+            winner = CardFaction.Demons;
             cartelManager.GetComponent<CartelManager>().MostrarCartel("El jugador Demons gano la ronda");
             ContextGame.contextGame.playerDemons.GetComponent<Player>().RoundsWon ++ ;
         }
@@ -130,13 +131,13 @@ public class GameManager : MonoBehaviour
         //Se verifica cual es el siguiente estado del juego segun las rondas ganadas de cada jugador
         int FairiesWinnedRounds = ContextGame.contextGame.playerFairies.GetComponent<Player>().UpdateRounds();
         int DemonsWinnedRounds = ContextGame.contextGame.playerDemons.GetComponent<Player>().UpdateRounds();
-        Check(FairiesWinnedRounds, DemonsWinnedRounds);
+        Check(FairiesWinnedRounds, DemonsWinnedRounds, winner);
     }
-    private void Check(int FWR, int DWR)
+    private void Check(int FWR, int DWR, CardFaction winner)
     {
         if((FWR == 0 && DWR  == 1) || (FWR == 1 && DWR == 0) || (FWR == 1 && DWR == 1))
         {
-            NewRound(FWR, DWR);
+            NewRound(winner);
         }
         else if((FWR == 2 && DWR == 0) || (FWR == 2 && DWR == 1))
         { 
@@ -151,25 +152,21 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene("Draw");
         }
     }
-    private void NewRound(int FairiesWinnedRounds, int DemonsWinnedRounds)
+    private void NewRound(CardFaction winner)
     {
         //Ambos jugadores roban dos cartas
         StoleTwoCards(ContextGame.contextGame.playerFairies.GetComponent<Player>());
         StoleTwoCards(ContextGame.contextGame.playerDemons.GetComponent<Player>());
         ContextGame.contextGame.UpdateFront();
         //Actualizar los booleanos de los turnos para la nueva ronda 
-        if(FairiesWinnedRounds == 0 && DemonsWinnedRounds  == 1)
+        if(winner == CardFaction.Demons)
         {
             CurrentPlayer = true;
         } 
-        else if(FairiesWinnedRounds == 1 && DemonsWinnedRounds == 0)
+        else if(winner == CardFaction.Fairies)
         {
             CurrentPlayer = false;
         }  
-        else if(FairiesWinnedRounds == 1 && DemonsWinnedRounds == 1)
-        {
-            CurrentPlayer = false;
-        } 
         ContextGame.contextGame.playerFairies.GetComponent<Player>().PlayerPassed = false;
         ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed = false;
     }

@@ -54,7 +54,6 @@ public class AssignEffect : Stmt
                 if(item.Item2.Type == RefEffect.EffectParams[item.Item1])
                 {
                     RefEffect.AssociatedScope.Define(item.Item1, item.Item2.Value);
-                    RefEffect.EffectParams.Remove(item.Item1);
                 }
                 else
                 {

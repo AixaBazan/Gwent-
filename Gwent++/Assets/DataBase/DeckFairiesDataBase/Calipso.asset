@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Calipso
   m_EditorClassIdentifier: 
   Image: {fileID: 21300000, guid: 2888a34ea53f5964db8549676261507e, type: 3}
-  Description: Carta Oro
+  Description: Activa un Aumento
   Name: Calipso
   Power: 13
   OriginalPower: 13
@@ -22,4 +22,4 @@ MonoBehaviour:
   IsPlayed: 0
   Range: []
   GameZone: 00000000
-  effect: 0
+  effect: 15

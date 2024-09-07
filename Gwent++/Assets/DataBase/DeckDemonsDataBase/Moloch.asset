@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Moloch
   m_EditorClassIdentifier: 
   Image: {fileID: 21300000, guid: 72bf673d0c151014cba18cde2952cc35, type: 3}
-  Description: Carta Oro
+  Description: Iguala el poder de las cartas de su campo al promedio
   Name: Moloch
   Power: 14
   OriginalPower: 14
@@ -22,4 +22,4 @@ MonoBehaviour:
   IsPlayed: 0
   Range: []
   GameZone: 02000000
-  effect: 0
+  effect: 13

@@ -30,12 +30,12 @@ public class CardDisplay : MonoBehaviour, IPointerClickHandler
         if(eventData.button == PointerEventData.InputButton.Left)
         {
             ContextGame.contextGame.GetPlayer(card.Owner).CanChange = false;
-            if(card.Owner == 1 && GameManager.Instance.CurrentPlayer == false && card.IsPlayed == false)
+            if(card.Owner == 1 && GameManager.Instance.CurrentPlayer == false && card.IsPlayed == false && ContextGame.contextGame.GetPlayer(card.Owner).PlayerPassed == false)
             {
                 CardManager.Instance.MoveCard(card);
                 GameManager.Instance.ChangePlayerTurn();
             }
-            else if(card.Owner == 2 && GameManager.Instance.CurrentPlayer == true && card.IsPlayed == false)
+            else if(card.Owner == 2 && GameManager.Instance.CurrentPlayer == true && card.IsPlayed == false && ContextGame.contextGame.GetPlayer(card.Owner).PlayerPassed == false)
             {
                 CardManager.Instance.MoveCard(card);
                 GameManager.Instance.ChangePlayerTurn();

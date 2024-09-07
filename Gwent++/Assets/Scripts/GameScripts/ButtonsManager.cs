@@ -13,12 +13,12 @@ public class ButtonsManager : MonoBehaviour
     {
         if(GameManager.Instance.CurrentPlayer == false)
         {
-            Debug.Log("El jugador 1 se rindio");
+            GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("El jugador Fairies se rindio");
             ContextGame.contextGame.playerFairies.GetComponent<Player>().PlayerPassed = true;
         }
         else if(GameManager.Instance.CurrentPlayer == true)
         {
-            Debug.Log("El jugador 2 se rindio");
+            GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("El jugador Demons se rindio");
             ContextGame.contextGame.playerDemons.GetComponent<Player>().PlayerPassed = true;
         }
         GameManager.Instance.ChangePlayerTurn();

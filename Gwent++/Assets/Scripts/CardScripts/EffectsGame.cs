@@ -36,7 +36,14 @@ public class Effects : MonoBehaviour
             Debug.Log("Se activo el efecto de la carta creada por el usuario");
             foreach(var effect in card.effects)
             {
-                effect.Interprete();
+                try
+                {
+                    effect.Interprete();
+                }
+                catch(Exception) 
+                {
+                    GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("No se pudo ejecutar el efecto " + effect.Name +", se detecto una excepcion");
+                }
             }
         }
         else if(card.effect == ParticularEffect.MultiplyAttack)
@@ -101,24 +108,26 @@ public class Effects : MonoBehaviour
         }
         else if(card.effect == ParticularEffect.DeleteRowWithFewerCards)
         {
-            List<Card> list = enemy.Field.OrderBy(c => c.GetComponent<Zone>().Cards.Count()).FirstOrDefault().GetComponent<Zone>().Cards;
+            List<Card> list = enemy.Field.Where(c => c.GetComponent<Zone>().Cards.Count() > 0).OrderBy(c => c.GetComponent<Zone>().Cards.Count()).FirstOrDefault().GetComponent<Zone>().Cards;
             ContextGame.contextGame.CleanZone(list, enemy);
         }
         else if(card.effect == ParticularEffect.DeleteCardWithMorePower)
         {
             if(enemy.GetField().Count > 0)
             {
-                Card cardToRemove = player.GetField().OrderByDescending(c => c.Power).FirstOrDefault();
-                ContextGame.contextGame.RemoveGame(cardToRemove, player.GetField());
+                Card cardToRemove = enemy.GetField().OrderByDescending(c => c.Power).FirstOrDefault();
+                ContextGame.contextGame.RemoveGame(cardToRemove, enemy.GetField());
             }
+            else GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("No hay cartas para aplicar el efecto");
         }
         else if(card.effect == ParticularEffect.DeletCardWithFewerPower)
         {
             if(enemy.GetField().Count > 0)
             {
-                Card cardToRemove = player.GetField().OrderBy(c => c.Power).FirstOrDefault();
-                ContextGame.contextGame.RemoveGame(cardToRemove, player.GetField());
+                Card cardToRemove = enemy.GetField().OrderBy(c => c.Power).FirstOrDefault();
+                ContextGame.contextGame.RemoveGame(cardToRemove, enemy.GetField());
             }
+            else GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("No hay cartas para aplicar el efecto");
         }
         else if(card.effect == ParticularEffect.Average)
         {
@@ -128,9 +137,10 @@ public class Effects : MonoBehaviour
                 double average = list.Average(c => c.Power);
                 foreach(var item in list)
                 {
-                    item.Power = average;
+                    item.Power = (int)average;
                 }
             }
+            else GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("No hay cartas para aplicar el efecto");
         }
         else if(card.effect == ParticularEffect.PutWeatherCard)
         {
@@ -184,7 +194,7 @@ public class Effects : MonoBehaviour
         {   
             player.HandZone.GetComponent<Zone>().Cards.Add(card);
             player.HandZone.GetComponent<Zone>().Cards.Remove(decoy);
-            card.IsPlayed = false;
+            //card.IsPlayed = false;
             decoy.IsPlayed = true;
             if(card.GameZone.Contains(ValidZone.Melee))
             {
@@ -204,7 +214,7 @@ public class Effects : MonoBehaviour
         }
         else
         {
-            Debug.Log("No hay cartas disponibles en el campo para ser cambiadas por el sennuelo");
+            GameManager.Instance.cartelManager.GetComponent<CartelManager>().MostrarCartel("No hay cartas disponibles para ser cambiadas por el sennuelo");
         }
         
     }

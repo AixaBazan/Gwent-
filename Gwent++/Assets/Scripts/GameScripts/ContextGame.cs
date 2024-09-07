@@ -220,6 +220,8 @@ public class ContextGame : MonoBehaviour
         {
             CounterFairies += playerFairies.GetComponent<Player>().Field[i].GetComponent<Zone>().UpdateZone();
             CounterDemons += playerDemons.GetComponent<Player>().Field[i].GetComponent<Zone>().UpdateZone();
+            playerFairies.GetComponent<Player>().Increase[i].GetComponent<Zone>().UpdateZone();
+            playerDemons.GetComponent<Player>().Increase[i].GetComponent<Zone>().UpdateZone();
         }
         //Se actualiza el contador
         playerFairies.GetComponent<Player>().UpdateCounter(CounterFairies);

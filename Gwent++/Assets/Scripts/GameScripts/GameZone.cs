@@ -23,6 +23,10 @@ public class Zone : MonoBehaviour
         //Instanciar los nuevos gameObjects segun las cartas q estan en la lista
         foreach (Card card in Cards)
         {
+            if(CompareTag("Hand"))
+            {
+                card.IsPlayed = false;
+            }
             counter += card.Power;
             InstantiateCard(card, gridLayoutGroup);
         }

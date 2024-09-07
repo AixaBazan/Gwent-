@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Naamah
   m_EditorClassIdentifier: 
   Image: {fileID: 21300000, guid: f1f3e632df3c1da4db7453e8091bf716, type: 3}
-  Description: Carta Oro
+  Description: Activa un clima
   Name: Naamah
   Power: 12
   OriginalPower: 12
@@ -22,4 +22,4 @@ MonoBehaviour:
   IsPlayed: 0
   Range: []
   GameZone: 01000000
-  effect: 0
+  effect: 14
