@@ -12,7 +12,6 @@ public class TokenStream : IEnumerable<Token>
         this.tokens = new List<Token>(tokens);
         position = 0;
     }
-    //Metodos libro
     //veo si algun token tiene el valor que le estoy indicando
     public bool Match(params string[] values)
     {
@@ -69,7 +68,7 @@ public class TokenStream : IEnumerable<Token>
     {
         return Match(TokenValue.comma) || Peek().Value == end;
     }
-    //Los de Rodrigo
+    
     public void MoveNext(int k)
     {
         position += k;
@@ -80,10 +79,6 @@ public class TokenStream : IEnumerable<Token>
         position -= k;
     }
 
-     /* The next methods are used to scroll through the token list 
-     if a condition is satisfied */
-
-     /* In this case, the condition is to have a next position */
     public bool Next()
     {
         if (position < tokens.Count - 1)
@@ -94,7 +89,6 @@ public class TokenStream : IEnumerable<Token>
         return position < tokens.Count;
     }
 
-    /* In this case, the next position must match the given type */
     public bool Next( TokenType type )
     {
         if (position < tokens.Count-1 && LookAhead(1).Type == type)
@@ -106,7 +100,6 @@ public class TokenStream : IEnumerable<Token>
         return false;
     }
 
-    /* In this cas, the next position must match the given value */
     public bool Next(string value)
     {            
         if (position < tokens.Count-1 && LookAhead(1).Value == value)

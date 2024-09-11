@@ -234,7 +234,7 @@ class Parser
             
             if(!Stream.Comma(TokenValue.ClosedSquareBracket))
             {
-                throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba ,");
+                throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , o ]");
             } 
         }while(!Stream.Match(TokenValue.ClosedSquareBracket));
         
@@ -244,7 +244,7 @@ class Parser
         }
         if(!Stream.Comma())
         {
-            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
+            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , o }");
         }
         else return range;
     }
@@ -262,7 +262,7 @@ class Parser
         else throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba : para definir la propiedad " + name + " de la carta");
         if(!Stream.Comma())
         {
-            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
+            throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , o }");
         }
         return exp;
     }
@@ -270,7 +270,7 @@ class Parser
 
     #region Effects
     //Parseando los efectos
-    public Effect ParseEffect(CodeLocation loc)
+    private Effect ParseEffect(CodeLocation loc)
     {
         Expression Name = null;
         Token targets = null;
@@ -303,7 +303,7 @@ class Parser
 
                 if(!Stream.Comma())
                 {
-                    throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
+                    throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , o }");
                 }
             }
 
@@ -336,7 +336,7 @@ class Parser
 
                 if(!Stream.Comma())
                 {
-                    throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , ");
+                    throw new CompilingError(Stream.Peek().Location, ErrorCode.Expected, "Se esperaba , o }");
                 }
             }
             else 
@@ -373,7 +373,7 @@ class Parser
     }
     #region Statements
     //Sentencias
-    public Stmt ActionBody()
+    private Stmt ActionBody()
     {
         List<Stmt> statements = new List<Stmt>();
         do
@@ -459,7 +459,7 @@ class Parser
         }
         return stmt;
     }
-    public Stmt VarDeclaration(Expression exp, CodeLocation loc) 
+    private Stmt VarDeclaration(Expression exp, CodeLocation loc) 
     {
         Expression Id = exp;
         Token op = Stream.Previous();
@@ -471,7 +471,7 @@ class Parser
 
     //Parseando expresiones
     #region Expressions
-    public Expression expression()
+    private Expression expression()
     {
         return Or();
     }

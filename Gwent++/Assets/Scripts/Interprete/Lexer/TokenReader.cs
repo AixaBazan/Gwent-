@@ -5,15 +5,11 @@ class TokenReader
     string code;
     int pos;
     int line;
-    int column; 
     public TokenReader(string code)
     {
-        //this.FileName = fileName;
         this.code = code;
         this.pos = 0;
         this.line = 1;
-        this.column = 0;
-        //this.lastLB = -1;
     }
     public CodeLocation Location
     {
@@ -22,11 +18,9 @@ class TokenReader
             return new CodeLocation
             {
                 Line = line,
-                Column = column
             };
         }
     }
-    //Metoditos lindos
     /* Peek the next character */
     public char Peek()
     {
@@ -44,9 +38,7 @@ class TokenReader
         if (EndOfLine)
         {
             line++;
-            column = 0;
         }
-        column ++;
         return this.code[this.pos++];
     }
     public bool EndOfFile

@@ -20,7 +20,6 @@ public class Token
 public struct CodeLocation
 {
     public int Line;
-    public int Column;
 }
 public enum TokenType
 {
@@ -165,6 +164,7 @@ class Compiling
 
                 //Text
                 LexicalProcess.RegisterText("\"", "\"");
+                
                 //KeyWords
                 LexicalProcess.RegisterKeyword("card", TokenValue.Card);
                 LexicalProcess.RegisterKeyword("Type", TokenValue.type);
@@ -202,7 +202,6 @@ class Compiling
                 LexicalProcess.RegisterKeyword("Remove", TokenValue.remove);
                 LexicalProcess.RegisterKeyword("Pop", TokenValue.pop);
                 LexicalProcess.RegisterKeyword("Shuffle", TokenValue.shuffle);
-
                 LexicalProcess.RegisterKeyword("HandOfPlayer", TokenValue.handOfPlayer);
                 LexicalProcess.RegisterKeyword("FieldOfPlayer", TokenValue.fieldOfPlayer);
                 LexicalProcess.RegisterKeyword("DeckOfPlayer", TokenValue.deckOfPlayer);

@@ -5,6 +5,7 @@ class Lambda : Expression
 {
     public Variable Var {get; private set;}
     Expression Condition;
+    Scope AssociatedScope;
     public Lambda(Variable variable, Expression condition, CodeLocation location) : base(location)
     {
         this.Var = variable;
@@ -14,17 +15,18 @@ class Lambda : Expression
     public override ExpressionType Type {get; set;}
     public override bool CheckSemantic(Context context, Scope scope, List<CompilingError> errors)
     {
+        this.AssociatedScope = scope.CreateChild();
         //Se chequea si ya esta en uso la variable 
-        if(scope.GetType(Var.variable) != ExpressionType.ErrorType)
+        if(AssociatedScope.GetType(Var.variable) != ExpressionType.ErrorType)
         {
             errors.Add(new CompilingError(Var.Location, ErrorCode.Invalid, "La variable " + Var.variable + " ya ha sido declarada, no se puede usar como parametro de la expresion lambda"));
             this.Type = ExpressionType.ErrorType;
             return false;
         }
-        scope.DefineType(Var.variable , ExpressionType.Card);
+        AssociatedScope.DefineType(Var.variable , ExpressionType.Card);
 
         //Chequeo semantico d la condicion
-        bool validCond = Condition.CheckSemantic(context, scope, errors);
+        bool validCond = Condition.CheckSemantic(context, AssociatedScope, errors);
         if(Condition.Type != ExpressionType.Boolean)
         {
             errors.Add(new CompilingError(Condition.Location, ErrorCode.Invalid, "La condicion de la expresion lambda debe devolver un booleano"));

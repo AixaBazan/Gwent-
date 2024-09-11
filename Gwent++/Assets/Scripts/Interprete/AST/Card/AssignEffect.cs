@@ -81,11 +81,11 @@ public class AssignEffect : Stmt
         //Si no tiene Selector se le asocia este selector
         if(postAction != null)
         {
-            postAction.Effect.selector.IsPostAction = true; //el efecto tiene un postAction y se le informa al selector q lo es
             if(postAction.Effect.selector is null)
             {
                 postAction.Effect.selector = this.selector;
             }
+            postAction.Effect.selector.IsPostAction = true; //el efecto tiene un postAction y se le informa al selector q lo es
             postAction.CheckSemantic(context, AssociatedScope, errors);
             postAction.AssociatedScope.EffectAndPostAction = new ValuePair(this, postAction.Effect);
         }
